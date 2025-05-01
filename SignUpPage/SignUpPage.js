@@ -9,14 +9,14 @@ document
     const name = document.getElementById("name").value;
 
     const data = {
-      username: username,
-      password: password,
-      studentId: studentId,
-      name: name,
+      username,
+      password,
+      studentId,
+      name,
     };
 
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("http://localhost:8080/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,17 +25,18 @@ document
       });
 
       const result = await response.json();
-
       const messageElement = document.getElementById("result-message");
+
       if (response.ok) {
-        messageElement.textContent = "회원가입 성공!";
+        messageElement.textContent = result.message || "회원가입 성공!";
         messageElement.style.color = "green";
       } else {
         messageElement.textContent = result.message || "회원가입 실패";
         messageElement.style.color = "red";
       }
+
     } catch (error) {
-      console.error("에러 발생", error);
+      console.error("에러 발생:", error);
       const messageElement = document.getElementById("result-message");
       messageElement.textContent = "서버 오류가 발생했습니다.";
       messageElement.style.color = "red";
