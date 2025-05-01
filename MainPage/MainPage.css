@@ -1,0 +1,266 @@
+* {
+  font-family: "Pretendard", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+}
+
+.navbar {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  transition: box-shadow 0.3s ease;
+  z-index: 1000;
+  border-bottom: none;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.navbar .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar.scrolled {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.bar {
+  height: 3px;
+  width: 100%;
+  background-color: gray;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* 메뉴 기본 숨김 + 애니메이션 효과 */
+.nav-menu {
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  width: 100%;
+  height: 30vh;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 1000;
+  transition: max-height 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.nav-menu.active {
+  display: flex;
+  max-height: 60vh;
+}
+
+.nav-menu a {
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  color: #888;
+  border-bottom: none;
+  margin: 0;
+}
+
+/* PC 버전: 햄버거 숨기고 nav 보이기 */
+@media screen and (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+
+  .navbar .logo {
+    margin-left: 80px;
+    margin-right: 100px;
+  }
+
+  .nav-menu {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    justify-content: flex-start;
+    max-height: none;
+    height: auto;
+    border: none;
+  }
+
+  .nav-menu a {
+    padding: 0 1rem;
+    border-bottom: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar .logo {
+    margin-left: -10px;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+}
+
+.main {
+  margin-top: 30px;
+  background-image: linear-gradient(#ffffff, #e4f2e9);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.cta-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 15px 32px;
+  font-size: 18px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #45a049;
+}
+
+#features {
+  display: flex;
+  flex-direction: column;
+}
+
+#features .feature:nth-child(even) {
+  background-color: #ffffff;
+}
+
+#features .feature:nth-child(odd) {
+  background-color: #f8f8f8; /* 아주 연한 회색 */
+}
+
+#features .feature {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#faq {
+  background-color: #f0f0f0;
+  padding: 60px 1rem;
+}
+
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faqCard {
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.faqCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.faqQuestion {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.faqAnswer {
+  display: none;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-top: 5px;
+}
+
+.faqCard.active .faqAnswer {
+  display: block;
+}
+
+#team {
+  background-color: #ffffff;
+  padding: 60px 1rem;
+  text-align: center;
+}
+
+#team h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#team p {
+  font-size: 1.2rem;
+  color: #777;
+  line-height: 1.6;
+}
+
+footer {
+  background-color: #f9f9f9;
+  text-align: center;
+}
