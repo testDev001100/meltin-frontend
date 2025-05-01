@@ -1,0 +1,71 @@
+/* 전체 폰트와 배경 설정 */
+body {
+  font-family: "Pretendard", sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* 로그인 박스 */
+.login-container {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
+}
+
+/* 제목 */
+.login-container h2 {
+  margin-bottom: 24px;
+  text-align: center;
+  color: #333;
+}
+
+/* 라벨 */
+.login-container label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* 인풋 */
+.login-container input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border 0.2s ease;
+}
+
+.login-container input:focus {
+  border-color: #78c2a5;
+  outline: none;
+}
+
+/* 버튼 */
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #78c2a5;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: #66a88f;
+}
