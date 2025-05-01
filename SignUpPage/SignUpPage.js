@@ -34,7 +34,6 @@ document
         messageElement.textContent = result.message || "회원가입 실패";
         messageElement.style.color = "red";
       }
-
     } catch (error) {
       console.error("에러 발생:", error);
       const messageElement = document.getElementById("result-message");
