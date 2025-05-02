@@ -42,3 +42,13 @@ document
       alert("로그인 중 오류가 발생했습니다.");
     }
   });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const signup = document.getElementById("signup");
+
+  if (signup) {
+    signup.addEventListener("click", function () {
+      window.location.href = "../SignUpPage/SignUpPage.html";
+    });
+  }
+});
