@@ -12,7 +12,7 @@ document
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/users/login", {
+      const response = await fetch("http://10.105.1.127:8080/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,15 +20,23 @@ document
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        alert("로그인 성공!");
-        // 예: 토큰 저장하고 마이페이지로 이동
-        // localStorage.setItem('token', result.token);
-        // window.location.href = '/mypage.html';
-      } else {
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("서버 에러 응답:", errorText);
         alert("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
+        return;
       }
+
+      // ✅ 헤더에서 토큰 추출
+      const token = response.headers.get("Authorization");
+      if (token) {
+        localStorage.setItem("token", token);
+        alert("로그인 성공!");
+      } else {
+        alert("로그인 성공 (토큰 없음)");
+      }
+
+      window.location.href = "./MainPage.html";
     } catch (error) {
       console.error("에러 발생:", error);
       alert("로그인 중 오류가 발생했습니다.");
