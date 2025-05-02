@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+.logo {
+  cursor: pointer;
+}
+
 img {
   width: 100px;
   height: 100px;
@@ -154,6 +158,7 @@ img {
 
 .main {
   margin-top: 30px;
+  background-image: linear-gradient(#ffffff, #cbf6e1);
   background-image: linear-gradient(#ffffff, #9fdcc2);
   height: 100vh;
   display: flex;
