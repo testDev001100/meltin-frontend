@@ -54,3 +54,36 @@ faqCards.forEach((card) => {
     card.classList.toggle("active");
   });
 });
+
+window.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("token");
+  const userInfoElement = document.getElementById("user-info");
+
+  if (!token) {
+    userInfoElement.textContent = "로그인";
+    userInfoElement.href = "/LogInPage.html"; // 로그인 페이지 경로 맞게 수정
+    return;
+  }
+
+  try {
+    const response = await fetch("http://10.105.1.127:8080/api/users/me", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    if (response.ok) {
+      const user = await response.json();
+      userInfoElement.textContent = `${user.name}님`;
+      userInfoElement.href = "/MyPage.html"; // 예: 마이페이지로 이동하게
+    } else {
+      userInfoElement.textContent = "로그인";
+      userInfoElement.href = "/LogInPage.html";
+    }
+  } catch (error) {
+    console.error("유저 정보 불러오기 오류:", error);
+    userInfoElement.textContent = "로그인";
+    userInfoElement.href = "/LogInPage.html";
+  }
+});

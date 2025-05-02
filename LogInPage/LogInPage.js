@@ -36,7 +36,7 @@ document
         alert("로그인 성공 (토큰 없음)");
       }
 
-      window.location.href = "./MainPage.html";
+      window.location.href = "../MainPage/MainPage.html";
     } catch (error) {
       console.error("에러 발생:", error);
       alert("로그인 중 오류가 발생했습니다.");
