@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   const login = document.querySelector(".user-info");
 
-  if (logo) {
+  if (login) {
     logo.addEventListener("click", function () {
       window.location.href = "../LogInPage/LogInPage.html";
     });
@@ -86,4 +86,34 @@ window.addEventListener("DOMContentLoaded", async () => {
     userInfoElement.textContent = "로그인";
     userInfoElement.href = "/LogInPage.html";
   }
+});
+
+let isLoggedIn = true; // 실제론 세션이나 로컬스토리지 기반으로 설정
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const userArea = document.getElementById("userArea");
+  const usernameSpan = document.getElementById("username");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const username = "홍길동"; // 실제 로그인 유저 이름으로 대체
+
+  function updateAuthUI() {
+    if (isLoggedIn) {
+      loginBtn.style.display = "none";
+      userArea.style.display = "flex";
+      usernameSpan.textContent = username;
+    } else {
+      loginBtn.style.display = "block";
+      userArea.style.display = "none";
+    }
+  }
+
+  // 로그아웃 버튼 클릭 시
+  logoutBtn.addEventListener("click", () => {
+    isLoggedIn = false; // 또는 세션/토큰 제거
+    updateAuthUI();
+  });
+
+  updateAuthUI();
 });
