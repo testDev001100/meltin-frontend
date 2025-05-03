@@ -21,10 +21,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const user = await response.json();
 
     // 사용자 정보 반영
-    document.getElementById("userid").textContent = user.userid || "N/A";
-    document.getElementById("username").textContent = user.username || "N/A";
+    document.getElementById("username").textContent = user.userid || "N/A";
+    document.getElementById("name").textContent = user.username || "N/A";
     document.getElementById("studentId").textContent = user.studentId || "N/A";
-    document.getElementById("teamName").textContent = user.teamName || "미배정";
 
     // ✅ 로그인 확인 완료 → 화면 표시
     document.body.style.display = "block";
