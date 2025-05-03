@@ -65,7 +65,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const response = await fetch("http://10.105.1.127:8080/api/users/me", {
+    const response = await fetch("http://192.168.123.100:8080/api/users/me", {
       method: "GET",
       headers: {
         Authorization: token,
