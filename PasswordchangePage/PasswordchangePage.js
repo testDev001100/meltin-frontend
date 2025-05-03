@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     .addEventListener("submit", async function (event) {
       event.preventDefault();
 
+      const currentPassword = document.getElementById("current-password").value;
       const newPassword = document.getElementById("new-password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
-      const errorMessage = document.getElementById("error-message");
-
+      
       // 비밀번호 확인
       if (newPassword !== confirmPassword) {
         errorMessage.textContent =
