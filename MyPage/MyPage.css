@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #f4f6f8;
 }
 
@@ -45,6 +45,10 @@ body {
 
 .green-button {
   background-color: #4caf50;
+}
+
+.red-button {
+  background-color: #f44336;
 }
 
 .red-button {

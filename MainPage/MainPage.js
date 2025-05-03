@@ -66,13 +66,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 기본적으로 로그인 상태로 판단하지 않음
   let isLoggedIn = false;
 
-  try {
-    const response = await fetch("http://192.168.123.100:8080/api/users", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-      },
-    });
   if (token) {
     try {
       const response = await fetch("http://192.168.123.100:8080/api/users/me", {
@@ -86,6 +79,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const user = await response.json();
         isLoggedIn = true;
         usernameSpan.textContent = `${user.name}님`;
+
+        usernameSpan.addEventListener("click", () => {
+          window.location.href = "../MyPage/MyPage.html";
+        });
       } else {
         // 유효하지 않은 토큰
         localStorage.removeItem("token");

@@ -8,15 +8,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-    const response = await fetch(
-      "http://192.168.123.100:8080/api/users/mypage",
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("인증 실패");
@@ -24,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const userData = await response.json();
 
-    // DOM에 데이터 삽입
+    // DOM에 데이터 삽입 (필드명: username, name, studentId)
     document.getElementById("username").textContent = userData.username;
     document.getElementById("name").textContent = userData.name;
     document.getElementById("studentId").textContent = userData.studentId;
