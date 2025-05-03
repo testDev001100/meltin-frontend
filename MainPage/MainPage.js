@@ -57,7 +57,7 @@ faqCards.forEach((card) => {
 
 window.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
-  const userInfoElement = document.getElementById("user-info");
+  const userInfoElement = document.querySelector("user-info");
 
   if (!token) {
     userInfoElement.textContent = "로그인";
