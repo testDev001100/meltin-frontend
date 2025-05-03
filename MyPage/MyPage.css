@@ -1,0 +1,67 @@
+/* 전체 중앙 정렬 */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f6f7f8;
+}
+
+/* 카드 형태 */
+.card {
+  background-color: white;
+  padding: 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+/* 제목 */
+.card h2 {
+  margin-bottom: 28px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 사용자 정보 */
+.info p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* 버튼 영역 */
+.actions {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 버튼 스타일 */
+.btn {
+  background-color: #6cc9a1;
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #57b98b;
+}
+
+.btn.danger {
+  background-color: #f26e6e;
+}
+
+.btn.danger:hover {
+  background-color: #de4d4d;
+}
