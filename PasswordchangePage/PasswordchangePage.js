@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", async function () {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
+              currentPassword: currentPassword, // 대문자 P 사용
+              newPassword: newPassword, // 대문자 P 사용
+            }),
               currentPassword: currentPassword,
               newPassword: newPassword
             })
