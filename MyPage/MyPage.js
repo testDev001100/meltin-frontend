@@ -31,4 +31,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     localStorage.removeItem("token");
     window.location.href = "../LogInPage/LogInPage.html";
   }
+
+  // ✅ 비밀번호 변경 버튼 클릭 시 이동
+  const PasswordchangeBtn = document.querySelector(".green-button");
+  if (PasswordchangeBtn) {
+    PasswordchangeBtn.addEventListener("click", function () {
+      window.location.href = "../PasswordchangePage/PasswordchangePage.html";
+    });
+  }
 });

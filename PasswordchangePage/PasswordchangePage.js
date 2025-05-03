@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const currentPassword = document.getElementById("current-password").value;
       const newPassword = document.getElementById("new-password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
-      const errorMessage = document.getElementById("error-message");
+      const errorMessage = document.getElementById("error-message");  // ✅ 추가됨
 
       // 비밀번호 확인
       if (newPassword !== confirmPassword) {
@@ -40,6 +40,9 @@ document.addEventListener("DOMContentLoaded", async function () {
               currentPassword: currentPassword, // 대문자 P 사용
               newPassword: newPassword, // 대문자 P 사용
             }),
+              currentPassword: currentPassword,
+              newPassword: newPassword
+            })
           }
         );
 
@@ -50,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         alert("비밀번호가 성공적으로 변경되었습니다.");
-        window.location.href = "../MyPage/MyPage.html"; // 비밀번호 변경 후 MyPage로 이동
+        window.location.href = "../MyPage/MyPage.html";
       } catch (error) {
         errorMessage.textContent = error.message;
         console.error("비밀번호 변경 오류:", error);
