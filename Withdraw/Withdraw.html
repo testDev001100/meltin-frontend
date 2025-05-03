@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원 탈퇴</title>
+    <link rel="stylesheet" href="withdraw.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <h2>회원 탈퇴</h2>
+        <form id="withdraw-form">
+          <!-- 비밀번호 입력 -->
+          <input
+            type="password"
+            id="password"
+            placeholder="비밀번호 입력"
+            required
+          />
+
+          <!-- 탈퇴 사유 선택 (선택 사항) -->
+          <select id="reason" name="reason">
+            <option value="" disabled selected>탈퇴 사유 (선택사항)</option>
+            <option value="사용빈도 낮음">사용빈도가 낮아요</option>
+            <option value="서비스 불만족">서비스가 만족스럽지 않아요</option>
+            <option value="다른 서비스 이용">
+              다른 서비스를 이용할 예정이에요
+            </option>
+            <option value="기타">기타</option>
+          </select>
+
+          <!-- 탈퇴 동의 체크박스 -->
+          <div class="checkbox-container">
+            <input type="checkbox" id="confirm-withdraw" required />
+            <label for="confirm-withdraw">
+              회원 탈퇴 시 모든 데이터가 삭제되며 복구할 수 없음에 동의합니다.
+            </label>
+          </div>
+
+          <p id="error-message" class="error-message"></p>
+
+          <button type="submit" class="btn red">회원 탈퇴</button>
+          <a href="../MyPage/MyPage.html" class="btn cancel">취소</a>
+        </form>
+      </div>
+    </div>
+
+    <script src="withdraw.js"></script>
+  </body>
+</html>
