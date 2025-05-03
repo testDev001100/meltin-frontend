@@ -37,6 +37,7 @@ img {
   border-bottom: none;
   padding: 5px 1rem;
   box-sizing: border-box;
+  white-space: nowrap; /* 줄바꿈 방지 */
 }
 
 .navbar .icon {
