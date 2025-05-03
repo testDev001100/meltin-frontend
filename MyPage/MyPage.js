@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem("token");
 
-<<<<<<< HEAD
   // 백엔드 요청 (실제 API 경로로 교체)
   fetch("http://192.168.123.100:8080/api/users")
     .then((res) => {
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           <a href="change-password.html" class="btn">비밀번호 변경</a>
           <a href="delete-user.html" class="btn danger">회원 탈퇴</a>
         `;
-=======
   if (!token) {
     alert("로그인이 필요합니다.");
     window.location.href = "../LoginPage/LoginPage.html";
@@ -42,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       headers: {
         Authorization: token,
       },
->>>>>>> a1de9c7830d1e0e4cf2e5b573e63d22764b2577f
     });
 
     if (!response.ok) {
