@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="MainPage.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap"
+    />
+    <title>Meltin'</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="navbar">
+        <div class="icon">
+          <img src="Meltin'logo.png" alt="Meltin' Icon" class="logo" />
+        </div>
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <nav class="nav-menu" id="navMenu">
+          <a href="#features">Features</a>
+          <a href="#faq">FAQ</a>
+          <a href="#team">Team</a>
+          <div class="auth-area">
+            <a
+              href="../LogInPage/LogInPage.html"
+              id="loginBtn"
+              class="user-info"
+              >Login</a
+            >
+
+            <div id="userArea" style="display: none">
+              <span id="username">User</span>
+              <button id="logoutBtn">Logout</button>
+            </div>
+          </div>
+          <div class="language-toggle">
+            <a href="MainPage.html" class="language-link">KOR</a>
+            <span class="separator">|</span>
+            <a href="MainPageEng.html" class="language-link">ENG</a>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <section class="main">
+          <div class="main-text">
+            <h1>The Start of Every Connection</h1>
+            <h1>Naturally at Meltin'</h1>
+          </div>
+          <button class="cta-btn">Meet Your Connection Now</button>
+        </section>
+        <section id="features" class="section">
+          <div class="feature">
+            <p class="main-feature">
+              Say goodbye to awkward first meetings. <br />
+              With Meltin', first meetings will no longer be awkward.
+            </p>
+          </div>
+          <div class="feature">
+            <h2>A Simple Survey to Show Who You Are</h2>
+            <p>
+              Share your vibe with just a few questions like MBTI, interests,
+              and more.
+            </p>
+          </div>
+          <div class="feature">
+            <h2>Smart Automatic Group Matching</h2>
+            <p>
+              Get connected with people who share similar interests and click
+              with you. Our algorithm automatically forms teams based on
+              compatible personalities and communication styles.
+            </p>
+          </div>
+          <div class="feature">
+            <h2>Meet Directly with a Group Number</h2>
+            <p>
+              If you share the same group number as someone, you're today's
+              team. Connect with just one number without any complicated steps.
+            </p>
+          </div>
+          <div class="feature">
+            <h2>Conversation Starter Questions to Break the Ice</h2>
+            <p>
+              If it's your first time meeting, start with a simple question.
+              Once the team gathers, warm and light-hearted conversation prompts
+              will help you connect easily.
+            </p>
+          </div>
+          <div class="feature">
+            <h2>Mobile-Optimized Simple Usability</h2>
+            <p>
+              From registration to team confirmation, your smartphone is all you
+              need. Designed for intuitive use without complicated UI,
+              mobile-first.
+            </p>
+          </div>
+        </section>
+        <section id="faq" class="section">
+          <h2>Frequently Asked Questions</h2>
+          <div class="faqContainer">
+            <div class="faqCard">
+              <div class="faqQuestion">Q: Is the service free?</div>
+              <div class="faqAnswer">
+                A: Yes, Meltin' is a free service. Group matching is done
+                through a survey, and no additional fees are charged.
+              </div>
+            </div>
+            <div class="faqCard">
+              <div class="faqQuestion">Q: How is the group matching done?</div>
+              <div class="faqAnswer">
+                A: Group matching is done automatically based on the results of
+                the survey, aligning users with others who share similar traits.
+                The survey is simple, and it helps ensure smooth group
+                activities.
+              </div>
+            </div>
+            <div class="faqCard">
+              <div class="faqQuestion">Q: Do I need to sign up?</div>
+              <div class="faqAnswer">
+                A: Yes, signing up is necessary. We require basic user
+                identification (ID, password, name, student number) to store
+                survey responses and team matching results for personalized
+                features like member pages and match history.
+              </div>
+            </div>
+            <div class="faqCard">
+              <div class="faqQuestion">Q: How long does the survey take?</div>
+              <div class="faqAnswer">
+                A: The survey takes about 5 minutes to complete. It's designed
+                to be quick and easy, so you can participate without any hassle.
+              </div>
+            </div>
+            <div class="faqCard">
+              <div class="faqQuestion">
+                Q: When can I check my group matching results?
+              </div>
+              <div class="faqAnswer">
+                Once all participants complete the survey, the admin will review
+                the results and click the 'Group Matching' button to run the
+                algorithm. The results will then be announced to participants.
+              </div>
+            </div>
+            <div class="faqCard">
+              <div class="faqQuestion">Q: Can I change my matched group?</div>
+              <div class="faqAnswer">
+                A: Group matching is a core feature, so changing groups is not
+                possible. However, if there is an issue with your match, please
+                contact our support team.
+              </div>
+            </div>
+            <div class="faqCard">
+              <div class="faqQuestion">Q: Is it available on mobile?</div>
+              <div class="faqAnswer">
+                A: Yes, Meltin' is available on both PC and mobile. The mobile
+                version offers a more intuitive and streamlined interface.
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="team" class="section">
+          <h2>Team Introduction</h2>
+          <p>
+            "itda" is the team that connects people through technology, making
+            it possible to create meaningful connections.
+          </p>
+        </section>
+      </main>
+      <footer>
+        <p>© 2025 Meltin’. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+  <script src="MainPage.js"></script>
+</html>
