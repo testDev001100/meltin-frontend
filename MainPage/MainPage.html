@@ -25,8 +25,23 @@
           <a href="#features">기능 설명</a>
           <a href="#faq">자주 묻는 질문</a>
           <a href="#team">팀소개</a>
-          <a href="../LogInPage/LogInPage.html" class="user-info">로그인</a>
-          <a href="">KOR | ENG</a>
+          <div class="auth-area">
+            <a
+              href="../LogInPage/LogInPage.html"
+              id="loginBtn"
+              class="user-info"
+              >로그인</a
+            >
+
+            <div id="userArea" style="display: none">
+              <span id="username">홍길동</span>
+              <button id="logoutBtn">로그아웃</button>
+            </div>
+          </div>
+          <a href="MainPage.html"
+            >KOR |
+            <span href="MainPageEng.html" class="english-page">ENG</span></a
+          >
         </nav>
       </header>
       <main>
@@ -35,18 +50,15 @@
             <h1>만남의 모든 시작</h1>
             <h1>Meltin'에서 자연스럽게</h1>
           </div>
-          <div class="main-image">
-            <img src="" alt="서비스 화면 예시" />
-          </div>
           <button class="cta-btn">지금 인연 만나기</button>
         </section>
         <section id="features" class="section">
           <div class="feature">
-            <h3>
-              처음 만남의 어색함, 이제 한 번에 해결하세요. 간단한 설문으로 나와
-              잘 맞는 사람들을 자동으로 매칭. Meltin’과 함께라면, 처음이 더 이상
-              어색하지 않을 거예요.
-            </h3>
+            <p class="main-feature">
+              처음 만남의 어색함, 이제 한 번에 해결하세요.<br />
+              간단한 설문으로 나와 잘 맞는 사람들을 자동으로 매칭.<br />
+              Meltin’과 함께라면, 처음이 더 이상 어색하지 않을 거예요.
+            </p>
           </div>
           <div class="feature">
             <h2>나를 보여주는 간단한 설문</h2>
