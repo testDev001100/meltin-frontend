@@ -7,10 +7,19 @@
     <link rel="stylesheet" href="MyPage.css" />
   </head>
   <body>
-    <div class="card" id="mainCard">
-      <h2 id="title">로딩 중...</h2>
-      <div id="content">정보를 불러오는 중입니다...</div>
-      <div class="actions" id="actions"></div>
+    <div class="container">
+      <h1>마이페이지</h1>
+      <div class="card">
+        <p><strong>아이디:</strong> <span id="user-id"></span></p>
+        <p><strong>이름:</strong> <span id="user-name"></span></p>
+        <p><strong>학번:</strong> <span id="user-studentId"></span></p>
+        <p><strong>팀:</strong> <span id="user-team"></span></p>
+
+        <div class="buttons">
+          <button id="change-password">비밀번호 변경</button>
+          <button id="withdraw">회원 탈퇴</button>
+        </div>
+      </div>
     </div>
 
     <script src="MyPage.js"></script>

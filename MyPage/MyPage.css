@@ -1,67 +1,46 @@
-/* 전체 중앙 정렬 */
 body {
+  font-family: "Arial", sans-serif;
+  background-color: #f7f7f7;
   margin: 0;
-  height: 100vh;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f6f7f8;
+  height: 100vh;
 }
 
-/* 카드 형태 */
+.container {
+  text-align: center;
+}
+
 .card {
   background-color: white;
-  padding: 40px 32px;
+  padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  width: 100%;
-  max-width: 360px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
 }
 
-/* 제목 */
-.card h2 {
-  margin-bottom: 28px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-/* 사용자 정보 */
-.info p {
+p {
+  font-size: 18px;
   margin: 10px 0;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px 20px;
   font-size: 16px;
-  color: #555;
-}
-
-/* 버튼 영역 */
-.actions {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* 버튼 스타일 */
-.btn {
-  background-color: #6cc9a1;
+  border: none;
+  background-color: #3498db;
   color: white;
-  text-decoration: none;
-  padding: 12px;
   border-radius: 8px;
-  font-size: 15px;
-  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
-.btn:hover {
-  background-color: #57b98b;
-}
-
-.btn.danger {
-  background-color: #f26e6e;
-}
-
-.btn.danger:hover {
-  background-color: #de4d4d;
+button:hover {
+  background-color: #2980b9;
 }
