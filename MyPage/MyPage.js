@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const response = await fetch("http://192.168.123.100:8080/api/users/me", {
       method: "GET",
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
     });
 

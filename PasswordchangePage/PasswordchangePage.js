@@ -1,20 +1,12 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem("token");
 
-  // ✅ 토큰 유효성 검사: 존재 여부 + JWT 형식 확인
-  if (
-    !token ||
-    typeof token !== "string" ||
-    !token.includes(".") ||
-    token.split(".").length !== 3
-  ) {
-    alert("유효하지 않은 로그인 상태입니다. 다시 로그인해주세요.");
-    localStorage.removeItem("token");
+  if (!token) {
+    alert("로그인이 필요합니다.");
     window.location.href = "../LogInPage/LogInPage.html";
     return;
   }
 
-  // ✅ 비밀번호 변경 이벤트 리스너
   document
     .getElementById("password-change-form")
     .addEventListener("submit", async function (event) {
@@ -24,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const confirmPassword = document.getElementById("confirm-password").value;
       const errorMessage = document.getElementById("error-message");
 
-      // ✅ 비밀번호 확인 검사
+      // 비밀번호 확인
       if (newPassword !== confirmPassword) {
         errorMessage.textContent =
           "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.";
@@ -33,34 +25,26 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       try {
         const response = await fetch(
-          "http://192.168.123.100:8080/api/users/password",
+          "http://192.168.123.100:8080/api/users/password", // PATCH 요청을 보내는 URL
           {
-            method: "PATCH",
+            method: "PATCH", // PATCH로 변경
             headers: {
               "Content-Type": "application/json",
-              Authorization: 'Bearer ${token}',
+              Authorization: `Bearer ${token}`, // Authorization 헤더에 Bearer 토큰 추가
             },
             body: JSON.stringify({
-              password: newPassword,
+              password: newPassword, // 새 비밀번호
             }),
           }
         );
 
         if (!response.ok) {
-          let errorMessage = "비밀번호 변경에 실패했습니다.";
-          try {
-            const text = await response.text();
-            const errorData = JSON.parse(text);
-            errorMessage = errorData.message || errorMessage;
-          } catch (e) {
-            console.warn("에러 응답이 JSON이 아님:", e);
-          }
-
-          throw new Error(errorMessage);
+          const errorData = await response.json();
+          throw new Error(errorData.message || "비밀번호 변경에 실패했습니다.");
         }
 
         alert("비밀번호가 성공적으로 변경되었습니다.");
-        window.location.href = "../MyPage/MyPage.html";
+        window.location.href = "../MyPage/MyPage.html"; // 비밀번호 변경 후 MyPage로 이동
       } catch (error) {
         errorMessage.textContent = error.message;
         console.error("비밀번호 변경 오류:", error);
