@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-    const response = await fetch("http://10.109.3.88:8080/api/users/info", {
+    const response = await fetch("http://192.168.123.100:8080/api/users/me", {
       method: "GET",
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`, // <-- Bearer 붙이기
       },
     });
 
