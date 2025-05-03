@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem("token");
 
+  // 로그인 상태 체크
   if (!token) {
     alert("로그인이 필요합니다.");
     window.location.href = "../LogInPage/LogInPage.html";
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     .addEventListener("submit", async function (event) {
       event.preventDefault();
 
+      // 폼 값 가져오기
       const currentPassword = document.getElementById("current-password").value;
       const newPassword = document.getElementById("new-password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
@@ -25,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
 
       try {
+        // 백엔드로 PATCH 요청 보내기
         const response = await fetch(
           "http://192.168.123.100:8080/api/users/password",
           {
@@ -43,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         );
 
+        // 응답 처리
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "비밀번호 변경에 실패했습니다.");
