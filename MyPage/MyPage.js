@@ -1,36 +1,34 @@
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem("token");
 
   if (!token) {
     alert("로그인이 필요합니다.");
-    window.location.href = "../LoginPage/LoginPage.html";
+    window.location.href = "../LogInPage/LogInPage.html";
     return;
   }
 
   try {
     const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+      method: "GET",
       headers: {
         Authorization: token,
       },
     });
 
     if (!response.ok) {
-      throw new Error("유저 정보 요청 실패");
+      throw new Error("인증 실패");
     }
 
-    const user = await response.json();
+    const userData = await response.json();
 
-    // 사용자 정보 반영
-    document.getElementById("username").textContent = user.username || "N/A";
-    document.getElementById("studentId").textContent = user.studentId || "N/A";
-    document.getElementById("name").textContent = user.name || "N/A";
-
-    // ✅ 로그인 확인 완료 → 화면 표시
-    document.body.style.display = "block";
+    // DOM에 데이터 삽입 (필드명: username, name, studentId)
+    document.getElementById("username").textContent = userData.username;
+    document.getElementById("name").textContent = userData.name;
+    document.getElementById("studentId").textContent = userData.studentId;
   } catch (error) {
-    console.error("에러:", error);
-    alert("사용자 정보를 불러오지 못했습니다. 다시 로그인해주세요.");
+    console.error("마이페이지 데이터 가져오기 실패:", error);
+    alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
     localStorage.removeItem("token");
-    window.location.href = "../LoginPage/LoginPage.html";
+    window.location.href = "../LogInPage/LogInPage.html";
   }
 });
