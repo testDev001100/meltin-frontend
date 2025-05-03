@@ -136,8 +136,37 @@ img {
     padding: 0 1rem;
     border-bottom: none;
   }
-}
 
+  .main-text {
+    font-size: 60px;
+  }
+
+  .feature .main-feature {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 60px;
+    padding: 200px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  #features .feature {
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .feature h2 {
+    font-size: 35px;
+    line-height: 80px;
+    margin-top: 60px;
+  }
+
+  .feature p {
+    font-size: 25px;
+    margin-bottom: 60px;
+  }
+}
+/* 모바일 버전 */
 @media screen and (max-width: 767px) {
   .hamburger {
     display: flex;
@@ -154,6 +183,42 @@ img {
     align-items: flex-start;
     padding: 0 1rem;
     max-width: 100%;
+  }
+
+  .main-text {
+    font-size: 25px;
+  }
+
+  .feature .main-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 30px;
+    padding: 80px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+  }
+
+  #features .feature {
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .feature h2 {
+    font-size: 25px;
+    line-height: 80px;
+    margin-top: 60px;
+    line-height: 60px;
+  }
+
+  .feature p {
+    font-size: 20px;
+    margin-bottom: 60px;
   }
 }
 
@@ -173,10 +238,11 @@ img {
 .cta-btn {
   background-color: #4caf50;
   color: white;
-  padding: 15px 32px;
-  font-size: 18px;
+  margin: 40px;
+  padding: 20px 40px;
+  font-size: 20px;
   border: none;
-  border-radius: 50px;
+  border-radius: 55px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -196,17 +262,6 @@ img {
 
 #features .feature:nth-child(odd) {
   background-color: #f8f8f8; /* 아주 연한 회색 */
-}
-
-#features .feature {
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.feature h3 {
-  font-size: 16px;
-  font-weight: 400px;
-  padding: 200px;
 }
 
 #faq {
