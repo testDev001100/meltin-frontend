@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const currentPassword = document.getElementById("current-password").value;
       const newPassword = document.getElementById("new-password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
-      
+      const errorMessage = document.getElementById("error-message");  // ✅ 추가됨
+
       // 비밀번호 확인
       if (newPassword !== confirmPassword) {
         errorMessage.textContent =
@@ -25,12 +26,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       try {
         const response = await fetch(
-          "http://192.168.123.100:8080/api/users/password", // PATCH 요청을 보내는 URL
+          "http://192.168.123.100:8080/api/users/password",
           {
-            method: "PATCH", // PATCH로 변경
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Authorization 헤더에 Bearer 토큰 추가
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               currentPassword: currentPassword,
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         alert("비밀번호가 성공적으로 변경되었습니다.");
-        window.location.href = "../MyPage/MyPage.html"; // 비밀번호 변경 후 MyPage로 이동
+        window.location.href = "../MyPage/MyPage.html";
       } catch (error) {
         errorMessage.textContent = error.message;
         console.error("비밀번호 변경 오류:", error);
