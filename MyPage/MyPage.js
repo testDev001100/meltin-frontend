@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // ✅ 비밀번호 변경 버튼 클릭 시 이동
-  const changePasswordBtn = document.querySelector(".green-button");
-  if (changePasswordBtn) {
-    changePasswordBtn.addEventListener("click", function () {
-      window.location.href = "../ChangepasswordPage/ChangepasswordPage.html";
+  const PasswordchangeBtn = document.querySelector(".green-button");
+  if (PasswordchangeBtn) {
+    PasswordchangeBtn.addEventListener("click", function () {
+      window.location.href = "../PasswordchangePage/PasswordchangePage.html";
     });
   }
 });
