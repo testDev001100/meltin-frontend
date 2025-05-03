@@ -50,6 +50,18 @@ img {
   border-bottom: 1px solid #e0e0e0;
 }
 
+.auth-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#userArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .hamburger {
   display: flex;
   flex-direction: column;
