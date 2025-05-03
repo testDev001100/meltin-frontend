@@ -66,13 +66,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 기본적으로 로그인 상태로 판단하지 않음
   let isLoggedIn = false;
 
-  try {
-    const response = await fetch("http://192.168.123.100:8080/api/users", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-      },
-    });
   if (token) {
     try {
       const response = await fetch("http://192.168.123.100:8080/api/users/me", {
