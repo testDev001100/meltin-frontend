@@ -21,6 +21,7 @@ img {
   margin: 0 auto;
   padding: 0;
   border: none;
+  overflow-x: hidden;
 }
 
 .navbar {
@@ -86,14 +87,18 @@ img {
   flex-direction: column;
   align-items: flex-start;
   background-color: white;
-  width: 100%;
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
   height: 30vh;
   position: absolute;
+  gap: 1rem;
   top: 50px;
   left: 0;
   z-index: 1000;
   transition: max-height 0.3s ease;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
 }
 
 .nav-menu.active {
@@ -102,17 +107,21 @@ img {
 }
 
 .nav-menu a {
-  padding: 0.75rem 1rem;
+  padding: 0 1rem;
   width: 100%;
   text-align: left;
   text-decoration: none;
   color: #888;
   border-bottom: none;
-  margin: 0;
+  margin: 0 0.5rem;
 }
 
 #username {
   cursor: pointer;
+}
+
+.separator {
+  color: #888;
 }
 
 /* PC 버전: 햄버거 숨기고 nav 보이기 */
@@ -141,6 +150,42 @@ img {
     border-bottom: none;
   }
 
+  .language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+    font-weight: bold;
+    color: #444;
+  }
+
+  .language-toggle .separator {
+    color: #999;
+    font-weight: normal;
+  }
+
+  .language-link {
+    text-decoration: none;
+    color: black;
+    position: relative;
+    padding: 4px 6px;
+  }
+
+  .language-link {
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+  }
+
+  .language-link:hover {
+    background-color: #e0e0e0; /* 연한 회색 박스 */
+  }
+
+  .language-link .hover-box {
+    display: none;
+  }
   .main-text {
     font-size: 60px;
   }

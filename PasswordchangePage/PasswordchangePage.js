@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         throw new Error(errMsg);
       }
-      
 
       alert("비밀번호가 성공적으로 변경되었습니다.");
       window.location.href = "../MyPage/MyPage.html";
