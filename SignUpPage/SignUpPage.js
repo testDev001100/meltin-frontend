@@ -16,7 +16,7 @@ document
     };
 
     try {
-      const response = await fetch("http://10.109.3.88:8080/api/users", {
+      const response = await fetch("http://192.168.123.100:8080/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
