@@ -33,8 +33,9 @@ document.addEventListener("DOMContentLoaded", async function () {
               Authorization: `Bearer ${token}`, // Authorization 헤더에 Bearer 토큰 추가
             },
             body: JSON.stringify({
-              password: newPassword, // 새 비밀번호
-            }),
+              currentPassword: currentPassword,
+              newPassword: newPassword
+            })
           }
         );
 
