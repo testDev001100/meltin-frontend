@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     .addEventListener("submit", async function (event) {
       event.preventDefault();
 
+      const currentPassword = document.getElementById("current-password").value;
       const newPassword = document.getElementById("new-password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
       const errorMessage = document.getElementById("error-message");
@@ -25,15 +26,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       try {
         const response = await fetch(
-          "http://192.168.123.100:8080/api/users/password", // PATCH 요청을 보내는 URL
+          "http://192.168.123.100:8080/api/users/password",
           {
-            method: "PATCH", // PATCH로 변경
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Authorization 헤더에 Bearer 토큰 추가
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              password: newPassword, // 새 비밀번호
+              currentPassword: currentPassword, // 대문자 P 사용
+              newPassword: newPassword, // 대문자 P 사용
             }),
           }
         );
