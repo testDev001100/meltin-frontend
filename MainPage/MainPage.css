@@ -111,6 +111,10 @@ img {
   margin: 0;
 }
 
+#username {
+  cursor: pointer;
+}
+
 /* PC 버전: 햄버거 숨기고 nav 보이기 */
 @media screen and (min-width: 768px) {
   .hamburger {

@@ -78,6 +78,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const user = await response.json();
         isLoggedIn = true;
         usernameSpan.textContent = `${user.name}님`;
+
+        usernameSpan.addEventListener("click", () => {
+          window.location.href = "../MyPage/MyPage.html";
+        });
       } else {
         // 유효하지 않은 토큰
         localStorage.removeItem("token");
