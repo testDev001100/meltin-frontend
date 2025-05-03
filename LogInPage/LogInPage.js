@@ -12,6 +12,7 @@ document
     };
 
     try {
+      const response = await fetch("http://192.168.123.100:8080/api/users", {
       const response = await fetch("http://192.168.123.100:8080/api/users/login", {
         method: "POST",
         headers: {
