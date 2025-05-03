@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const actions = document.getElementById("actions");
 
   // 백엔드 요청 (실제 API 경로로 교체)
-  fetch("/경로명")
+  fetch("http://192.168.123.100:8080/api/users")
     .then((res) => {
       if (!res.ok) throw new Error("실패");
       return res.json();
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 성공 시 마이페이지 출력
       title.textContent = "마이페이지";
       content.innerHTML = `
-          <p><strong>아이디:</strong> ${data.id}</p>
+          <p><strong>아이디:</strong> ${data.username}</p>
           <p><strong>이름:</strong> ${data.name}</p>
           <p><strong>학번:</strong> ${data.studentId}</p>
         `;
