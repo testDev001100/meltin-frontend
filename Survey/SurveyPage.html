@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>팀 매칭 설문조사</title>
+    <link rel="stylesheet" href="Survey.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <h2>팀 매칭 설문조사</h2>
+        <form id="survey-form">
+          <!-- MBTI -->
+          <div class="form-group">
+            <label for="mbti">MBTI</label>
+            <select id="mbti" name="mbti" required>
+              <option value="" disabled selected>MBTI 선택</option>
+              <option value="ISTJ">ISTJ</option>
+              <option value="ISFJ">ISFJ</option>
+              <option value="INFJ">INFJ</option>
+              <option value="INTJ">INTJ</option>
+              <option value="ISTP">ISTP</option>
+              <option value="ISFP">ISFP</option>
+              <option value="INFP">INFP</option>
+              <option value="INTP">INTP</option>
+              <option value="ESTP">ESTP</option>
+              <option value="ESFP">ESFP</option>
+              <option value="ENFP">ENFP</option>
+              <option value="ENTP">ENTP</option>
+              <option value="ESTJ">ESTJ</option>
+              <option value="ESFJ">ESFJ</option>
+              <option value="ENFJ">ENFJ</option>
+              <option value="ENTJ">ENTJ</option>
+            </select>
+          </div>
+
+          <!-- 관심주제 -->
+          <div class="form-group">
+            <label for="interest">관심주제</label>
+            <select id="interest" name="interest" required>
+              <option value="" disabled selected>관심주제 선택</option>
+              <option value="웹개발">웹개발</option>
+              <option value="앱개발">앱개발</option>
+              <option value="게임개발">게임개발</option>
+              <option value="인공지능">인공지능</option>
+              <option value="데이터분석">데이터분석</option>
+              <option value="디자인">디자인</option>
+              <option value="기획">기획</option>
+              <option value="마케팅">마케팅</option>
+            </select>
+          </div>
+
+          <!-- 소통스타일 -->
+          <div class="form-group">
+            <label for="communicationStyle">소통스타일</label>
+            <select id="communicationStyle" name="communicationStyle" required>
+              <option value="" disabled selected>소통스타일 선택</option>
+              <option value="직접적">
+                직접적이고 명확하게 의견을 표현해요
+              </option>
+              <option value="협력적">협력적이고 조화를 중시해요</option>
+              <option value="분석적">분석적이고 논리적으로 접근해요</option>
+              <option value="경청형">
+                주로 경청하고 필요할 때 의견을 내요
+              </option>
+            </select>
+          </div>
+
+          <!-- 갈등대처 -->
+          <div class="form-group">
+            <label for="conflictResponse">갈등대처</label>
+            <select id="conflictResponse" name="conflictResponse" required>
+              <option value="" disabled selected>갈등대처 방식 선택</option>
+              <option value="타협">타협점을 찾아 해결하려 해요</option>
+              <option value="회피">갈등 상황을 피하는 편이에요</option>
+              <option value="협력">함께 최선의 해결책을 찾아요</option>
+              <option value="경쟁">제 의견을 관철시키려 노력해요</option>
+              <option value="수용">상대방의 의견을 수용하는 편이에요</option>
+            </select>
+          </div>
+
+          <!-- 팀에서 선호역할 -->
+          <div class="form-group">
+            <label for="preferredRole">팀에서 선호역할</label>
+            <select id="preferredRole" name="preferredRole" required>
+              <option value="" disabled selected>선호역할 선택</option>
+              <option value="리더">리더/조정자</option>
+              <option value="아이디어">아이디어 제공자</option>
+              <option value="실행자">실행자/구현자</option>
+              <option value="분석가">분석가/평가자</option>
+              <option value="서포터">서포터/조력자</option>
+            </select>
+          </div>
+
+          <!-- 선호 팀 분위기 -->
+          <div class="form-group">
+            <label for="preferredTeamMood">선호 팀 분위기</label>
+            <select id="preferredTeamMood" name="preferredTeamMood" required>
+              <option value="" disabled selected>선호 팀 분위기 선택</option>
+              <option value="화목">화목하고 친근한 분위기</option>
+              <option value="효율">효율적이고 목표 지향적인 분위기</option>
+              <option value="창의">창의적이고 자유로운 분위기</option>
+              <option value="체계">체계적이고 계획적인 분위기</option>
+            </select>
+          </div>
+
+          <!-- 자신을 표현하는 키워드 (선택형으로 변경) -->
+          <div class="form-group">
+            <label for="selfKeywords">자신을 표현하는 키워드</label>
+            <select id="selfKeywords" name="selfKeywords" required>
+              <option value="" disabled selected>키워드 선택</option>
+              <option value="성실함">성실함</option>
+              <option value="창의적">창의적</option>
+              <option value="책임감">책임감</option>
+              <option value="꼼꼼함">꼼꼼함</option>
+              <option value="열정적">열정적</option>
+              <option value="긍정적">긍정적</option>
+              <option value="논리적">논리적</option>
+              <option value="유연함">유연함</option>
+              <option value="도전적">도전적</option>
+              <option value="친화력">친화력</option>
+              <option value="리더십">리더십</option>
+              <option value="분석적">분석적</option>
+              <option value="협력적">협력적</option>
+              <option value="독립적">독립적</option>
+              <option value="섬세함">섬세함</option>
+            </select>
+          </div>
+
+          <!-- 성향선호 -->
+          <div class="form-group">
+            <label for="matchingPreference">성향선호</label>
+            <select id="matchingPreference" name="matchingPreference" required>
+              <option value="" disabled selected>성향선호 선택</option>
+              <option value="유사">나와 유사한 성향의 팀원 선호</option>
+              <option value="상이">나와 다른 성향의 팀원 선호</option>
+              <option value="균형">균형 있는 팀 구성 선호</option>
+              <option value="무관">특별한 선호 없음</option>
+            </select>
+          </div>
+
+          <p id="error-message" class="error-message"></p>
+
+          <button type="submit" class="btn green">제출하기</button>
+          <a href="../MyPage/MyPage.html" class="btn cancel">취소</a>
+        </form>
+      </div>
+    </div>
+
+    <script src="survey.js"></script>
+  </body>
+</html>
