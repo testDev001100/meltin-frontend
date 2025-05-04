@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // 설문조사 제출 성공 처리
       alert("설문조사가 성공적으로 제출되었습니다.");
-      window.location.href = "../MyPage/MyPage.html"; // 마이페이지로 리다이렉트
+      window.location.href = "../MyPage/MyPage.html"; // 마이페이지로 리다이렉트 > 추후에 결과발표 페이지로 업데이트
     } catch (error) {
       // 에러 메시지 출력
       errorMessage.textContent = error.message;
