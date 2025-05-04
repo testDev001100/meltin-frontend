@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (logo) {
     logo.addEventListener("click", function () {
+      // 메인 페이지로 이동
       window.location.href = "MainPage.html";
     });
   }
@@ -54,35 +55,60 @@ faqCards.forEach((card) => {
   });
 });
 
-window.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const userArea = document.getElementById("userArea");
+  const usernameSpan = document.getElementById("username");
+  const logoutBtn = document.getElementById("logoutBtn");
+
   const token = localStorage.getItem("token");
-  const userInfoElement = document.querySelector(".user-info");
 
-  if (!token) {
-    userInfoElement.textContent = "로그인";
-    userInfoElement.href = "/LogInPage.html"; // 로그인 페이지 경로 맞게 수정
-    return;
-  }
+  // 기본적으로 로그인 상태로 판단하지 않음
+  let isLoggedIn = false;
 
-  try {
-    const response = await fetch("http://192.168.123.100:8080/api/users/me", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-      },
-    });
+  if (token) {
+    try {
+      const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+        method: "GET",
+        headers: {
+          Authorization: token,
+        },
+      });
 
-    if (response.ok) {
-      const user = await response.json();
-      userInfoElement.textContent = `${user.name}님`;
-      userInfoElement.href = "/MyPage.html"; // 예: 마이페이지로 이동하게
-    } else {
-      userInfoElement.textContent = "로그인";
-      userInfoElement.href = "/LogInPage.html";
+      if (response.ok) {
+        const user = await response.json();
+        isLoggedIn = true;
+        usernameSpan.textContent = `${user.name}님`;
+
+        usernameSpan.addEventListener("click", () => {
+          window.location.href = "../MyPage/MyPage.html";
+        });
+      } else {
+        // 유효하지 않은 토큰
+        localStorage.removeItem("token");
+      }
+    } catch (error) {
+      console.error("유저 정보 요청 실패:", error);
+      localStorage.removeItem("token");
     }
-  } catch (error) {
-    console.error("유저 정보 불러오기 오류:", error);
-    userInfoElement.textContent = "로그인";
-    userInfoElement.href = "/LogInPage.html";
   }
+  // UI 업데이트
+  function updateAuthUI() {
+    if (isLoggedIn) {
+      loginBtn.style.display = "none";
+      userArea.style.display = "flex";
+    } else {
+      loginBtn.style.display = "block";
+      userArea.style.display = "none";
+    }
+  }
+
+  // 로그아웃 처리
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    isLoggedIn = false;
+    updateAuthUI();
+  });
+
+  updateAuthUI();
 });
