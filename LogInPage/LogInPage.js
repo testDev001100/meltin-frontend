@@ -12,14 +12,16 @@ document
     };
 
     try {
-      const response = await fetch("http://192.168.123.100:8080/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
+      const response = await fetch(
+        "http://192.168.123.100:8080/api/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       if (!response.ok) {
         const errorText = await response.text();
         console.error("서버 에러 응답:", errorText);
@@ -42,3 +44,13 @@ document
       alert("로그인 중 오류가 발생했습니다.");
     }
   });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const signup = document.getElementById("signup");
+
+  if (signup) {
+    signup.addEventListener("click", function () {
+      window.location.href = "../SignUpPage/SignUpPage.html";
+    });
+  }
+});

@@ -312,7 +312,6 @@ img {
 #features .feature:nth-child(odd) {
   background-color: #f8f8f8; /* 아주 연한 회색 */
 }
-/*자주 묻는 질문*/
 #faq {
   background-color: #f0f0f0;
   padding: 60px 1rem;
