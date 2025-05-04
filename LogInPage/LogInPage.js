@@ -30,7 +30,6 @@ document
         return;
       }
 
-      // ✅ 헤더에서 토큰 추출
       const token = response.headers.get("Authorization");
       if (token) {
         localStorage.setItem("token", token);
