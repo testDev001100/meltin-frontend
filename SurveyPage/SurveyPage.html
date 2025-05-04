@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>팀 매칭 설문조사</title>
+    <link rel="stylesheet" href="SurveyPage.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="survey-card">
+        <div class="survey-header">
+          <h1>팀 매칭 설문조사</h1>
+          <p>나와 잘 맞는 팀원을 찾기 위한 설문조사입니다.</p>
+        </div>
+
+        <form id="survey-form">
+          <!-- 1. MBTI -->
+          <div class="form-section">
+            <h2>1. MBTI</h2>
+            <p class="question-desc">자신의 MBTI를 선택해주세요.</p>
+            <div class="form-group">
+              <select id="mbti" name="mbti" required>
+                <option value="" disabled selected>MBTI 선택</option>
+                <option value="ISTJ">ISTJ</option>
+                <option value="ISFJ">ISFJ</option>
+                <option value="INFJ">INFJ</option>
+                <option value="INTJ">INTJ</option>
+                <option value="ISTP">ISTP</option>
+                <option value="ISFP">ISFP</option>
+                <option value="INFP">INFP</option>
+                <option value="INTP">INTP</option>
+                <option value="ESTP">ESTP</option>
+                <option value="ESFP">ESFP</option>
+                <option value="ENFP">ENFP</option>
+                <option value="ENTP">ENTP</option>
+                <option value="ESTJ">ESTJ</option>
+                <option value="ESFJ">ESFJ</option>
+                <option value="ENFJ">ENFJ</option>
+                <option value="ENTJ">ENTJ</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 2. 관심 주제 -->
+          <div class="form-section">
+            <h2>2. 관심 주제</h2>
+            <p class="question-desc">
+              평소 관심 있는 분야를 골라주세요. (여러 개 선택 가능)
+            </p>
+            <div class="form-group checkbox-group">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-sports"
+                  name="interests"
+                  value="스포츠"
+                />
+                <label for="interest-sports">스포츠</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-music"
+                  name="interests"
+                  value="음악"
+                />
+                <label for="interest-music">음악</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-game"
+                  name="interests"
+                  value="게임"
+                />
+                <label for="interest-game">게임</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-travel"
+                  name="interests"
+                  value="여행"
+                />
+                <label for="interest-travel">여행</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-movie"
+                  name="interests"
+                  value="영화"
+                />
+                <label for="interest-movie">영화</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-coding"
+                  name="interests"
+                  value="코딩"
+                />
+                <label for="interest-coding">코딩</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-psychology"
+                  name="interests"
+                  value="심리학"
+                />
+                <label for="interest-psychology">심리학</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-art"
+                  name="interests"
+                  value="예술"
+                />
+                <label for="interest-art">예술</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-book"
+                  name="interests"
+                  value="독서"
+                />
+                <label for="interest-book">독서</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="interest-cooking"
+                  name="interests"
+                  value="요리"
+                />
+                <label for="interest-cooking">요리</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 소통 스타일 -->
+          <div class="form-section">
+            <h2>3. 소통 스타일</h2>
+            <p class="question-desc">나는 보통 대화할 때...</p>
+            <div class="form-group radio-group">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="comm-talkative"
+                  name="communication"
+                  value="말을 많이 함"
+                  required
+                />
+                <label for="comm-talkative">말을 많이 함</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="comm-listener"
+                  name="communication"
+                  value="듣는 편"
+                />
+                <label for="comm-listener">듣는 편</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="comm-balanced"
+                  name="communication"
+                  value="균형 있음"
+                />
+                <label for="comm-balanced">균형 있음</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. 갈등 대처 -->
+          <div class="form-section">
+            <h2>4. 갈등 대처</h2>
+            <p class="question-desc">갈등 상황에서 나는...</p>
+            <div class="form-group radio-group">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="conflict-direct"
+                  name="conflict"
+                  value="바로 말함"
+                  required
+                />
+                <label for="conflict-direct">바로 말함</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="conflict-careful"
+                  name="conflict"
+                  value="분위기 살핀 후 말함"
+                />
+                <label for="conflict-careful">분위기 살핀 후 말함</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="conflict-avoid"
+                  name="conflict"
+                  value="참고 넘김"
+                />
+                <label for="conflict-avoid">참고 넘김</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. 팀에서 선호 역할 -->
+          <div class="form-section">
+            <h2>5. 팀에서 선호 역할</h2>
+            <p class="question-desc">팀 활동에서 어떤 역할을 선호하나요?</p>
+            <div class="form-group radio-group">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="role-idea"
+                  name="role"
+                  value="아이디어 제시"
+                  required
+                />
+                <label for="role-idea">아이디어 제시</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="role-presentation"
+                  name="role"
+                  value="발표"
+                />
+                <label for="role-presentation">발표</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="role-organization"
+                  name="role"
+                  value="정리"
+                />
+                <label for="role-organization">정리</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="role-research"
+                  name="role"
+                  value="조사"
+                />
+                <label for="role-research">조사</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. 선호 팀 분위기 -->
+          <div class="form-section">
+            <h2>6. 선호 팀 분위기</h2>
+            <p class="question-desc">나는 이런 팀 분위기를 선호해요</p>
+            <div class="form-group radio-group">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="mood-free"
+                  name="mood"
+                  value="자유로운"
+                  required
+                />
+                <label for="mood-free">자유로운</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="mood-calm" name="mood" value="차분한" />
+                <label for="mood-calm">차분한</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="mood-energetic"
+                  name="mood"
+                  value="활기찬"
+                />
+                <label for="mood-energetic">활기찬</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="mood-quiet"
+                  name="mood"
+                  value="조용한"
+                />
+                <label for="mood-quiet">조용한</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. 자신을 표현하는 키워드 -->
+          <div class="form-section">
+            <h2>7. 자신을 표현하는 키워드</h2>
+            <p class="question-desc">나를 표현하는 성격 키워드 (최대 3개)</p>
+            <div class="form-group checkbox-group" id="keywords-group">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-emotional"
+                  name="keywords"
+                  value="감성적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-emotional">감성적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-logical"
+                  name="keywords"
+                  value="논리적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-logical">논리적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-planned"
+                  name="keywords"
+                  value="계획적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-planned">계획적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-spontaneous"
+                  name="keywords"
+                  value="즉흥적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-spontaneous">즉흥적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-extroverted"
+                  name="keywords"
+                  value="외향적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-extroverted">외향적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-introverted"
+                  name="keywords"
+                  value="내향적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-introverted">내향적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-creative"
+                  name="keywords"
+                  value="창의적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-creative">창의적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-analytical"
+                  name="keywords"
+                  value="분석적"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-analytical">분석적</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-detail"
+                  name="keywords"
+                  value="꼼꼼한"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-detail">꼼꼼한</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="keyword-flexible"
+                  name="keywords"
+                  value="유연한"
+                  class="keyword-checkbox"
+                />
+                <label for="keyword-flexible">유연한</label>
+              </div>
+            </div>
+            <p id="keyword-error" class="error-message"></p>
+          </div>
+
+          <!-- 8. 성향 선호 -->
+          <div class="form-section">
+            <h2>8. 성향 선호</h2>
+            <p class="question-desc">
+              나와 비슷한 사람 / 다양한 성향 중 누구와 팀이 되고 싶나요?
+            </p>
+            <div class="form-group radio-group">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="preference-similar"
+                  name="preference"
+                  value="비슷한 성향"
+                  required
+                />
+                <label for="preference-similar">비슷한 성향</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="preference-diverse"
+                  name="preference"
+                  value="다양한 성향"
+                />
+                <label for="preference-diverse">다양한 성향</label>
+              </div>
+            </div>
+          </div>
+
+          <div id="form-error" class="error-message"></div>
+
+          <div class="button-group">
+            <button type="button" id="cancel-btn" class="btn cancel-btn">
+              취소
+            </button>
+            <button type="submit" class="btn submit-btn">제출하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="SurveyPage.js"></script>
+  </body>
+</html>
