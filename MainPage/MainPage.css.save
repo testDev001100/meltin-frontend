@@ -337,6 +337,7 @@ img {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
+
 .faqQuestion {
   font-size: 1.2rem;
   font-weight: bold;
@@ -351,6 +352,7 @@ img {
   padding: 10px;
   background-color: #f9f9f9;
   margin-top: 5px;
+
 }
 
 .faqCard.active .faqAnswer {
@@ -365,6 +367,7 @@ img {
 
 #team h2 {
   font-size: 2rem;
+
   color: #333;
   margin-bottom: 20px;
 }
@@ -376,6 +379,20 @@ img {
 }
 
 footer {
+
   background-color: #f9f9f9;
   text-align: center;
 }
+
+
+
+git add MainPage/MainPage.css
+git add MainPage/MainPage.css
+
+node "/Users/jinyoung/Documents/meltin-frontend/MainPage/MainPage.js"
+git add MainPage/MainPage.css
+
+
+
+node "/Users/jinyoung/Documents/meltin-frontend/MainPage/MainPage.js"
+

@@ -48,9 +48,10 @@ document
 document.addEventListener("DOMContentLoaded", function () {
   const signup = document.getElementById("signup");
 
-  if (signup) {
-    signup.addEventListener("click", function () {
+  if (signup) {    signup.addEventListener("click", function () {
       window.location.href = "../SignUpPage/SignUpPage.html";
     });
   }
 });
+
+
