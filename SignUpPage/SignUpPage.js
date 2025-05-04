@@ -30,6 +30,10 @@ document
       if (response.ok) {
         messageElement.textContent = result.message || "회원가입 성공!";
         messageElement.style.color = "green";
+
+        setTimeout(() => {
+          window.location.href = "../LogInPage/LogInPage.html";
+        }, 1500);
       } else {
         messageElement.textContent = result.message || "회원가입 실패";
         messageElement.style.color = "red";
