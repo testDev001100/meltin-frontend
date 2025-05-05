@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let isAutoRefreshEnabled = true;
   let currentConfirmCallback = null;
 
+  // 백엔드 API 기본 URL
+  const API_BASE_URL = "http://<백엔드 IP 또는 도메인>/api";
+
   // 테스트용 토큰 설정
   if (!localStorage.getItem("token")) {
     localStorage.setItem("token", "test-token-12345");
@@ -225,15 +228,13 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       showLoading();
 
-      // API 호출 대신 테스트 데이터 사용
-      // 실제 구현 시 아래 주석 해제하고 loadTestData() 호출 제거
-      /*
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
       }
 
-      const response = await fetch("http://localhost:3000/api/admin/waiting-users", {
+      // 실제 API 호출
+      const response = await fetch(`${API_BASE_URL}/admin/users`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -253,11 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
       users = data;
-      */
-
-      // 테스트 데이터 로드
-      loadTestData();
-
       filteredUsers = [...users];
       renderUsers();
       updateStats();
@@ -275,33 +271,42 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       showLoading();
 
-      // API 호출 대신 로컬 데이터 업데이트
-      const userIndex = users.findIndex(
-        (user) => user.id === Number.parseInt(userId)
-      );
-      if (userIndex !== -1) {
-        users[userIndex].status = status;
-
-        // 필터링된 사용자 목록도 업데이트
-        const filteredIndex = filteredUsers.findIndex(
-          (user) => user.id === Number.parseInt(userId)
-        );
-        if (filteredIndex !== -1) {
-          filteredUsers[filteredIndex].status = status;
-        }
-
-        renderUsers();
-        updateStats();
-
-        // 성공 메시지
-        alert(
-          `사용자 상태가 '${
-            status === "matched" ? "매칭됨" : "대기 중"
-          }'으로 업데이트되었습니다.`
-        );
-      } else {
-        throw new Error("사용자를 찾을 수 없습니다.");
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
       }
+
+      // 실제 API 호출
+      const response = await fetch(
+        `${API_BASE_URL}/admin/users/${userId}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          alert("인증이 만료되었습니다. 다시 로그인해주세요.");
+          window.location.href = "login.html";
+          return;
+        }
+        throw new Error("사용자 상태 업데이트에 실패했습니다.");
+      }
+
+      // 성공 메시지
+      alert(
+        `사용자 상태가 '${
+          status === "matched" ? "매칭됨" : "대기 중"
+        }'으로 업데이트되었습니다.`
+      );
+
+      // 사용자 목록 새로고침
+      await fetchUsers();
 
       hideLoading();
     } catch (error) {
@@ -316,29 +321,34 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       showLoading();
 
-      // API 호출 대신 로컬 데이터 업데이트
-      let matchedCount = 0;
-      users.forEach((user) => {
-        if (user.status === "waiting") {
-          user.status = "matched";
-          matchedCount++;
-        }
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
+      }
+
+      // 실제 API 호출
+      const response = await fetch(`${API_BASE_URL}/admin/match`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
-      // 필터링된 사용자 목록도 업데이트
-      filteredUsers.forEach((user) => {
-        if (user.status === "waiting") {
-          user.status = "matched";
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          alert("인증이 만료되었습니다. 다시 로그인해주세요.");
+          window.location.href = "login.html";
+          return;
         }
-      });
-
-      renderUsers();
-      updateStats();
+        throw new Error("사용자 일괄 매칭에 실패했습니다.");
+      }
 
       // 성공 메시지
-      alert(
-        `${matchedCount}명의 대기 중인 사용자가 성공적으로 매칭되었습니다.`
-      );
+      alert("모든 대기 중인 사용자가 성공적으로 매칭되었습니다.");
+
+      // 사용자 목록 새로고침
+      await fetchUsers();
 
       hideLoading();
     } catch (error) {
@@ -469,90 +479,13 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "login.html";
   });
 
-  // 테스트 데이터 로드
-  function loadTestData() {
-    console.log("테스트 데이터 로드 중...");
-    users = [
-      {
-        id: 1,
-        username: "user1",
-        name: "김철수",
-        studentId: "20230001",
-        mbti: "ENFJ",
-        interest: "인공지능, 웹개발",
-        communicationStyle: "적극적",
-        preferredRole: "프론트엔드",
-        selfKeywords: "창의적, 책임감",
-        matchingPreference: "비슷한 관심사",
-        status: "waiting",
-      },
-      {
-        id: 2,
-        username: "user2",
-        name: "이영희",
-        studentId: "20230002",
-        mbti: "INTJ",
-        interest: "데이터 분석, 머신러닝",
-        communicationStyle: "논리적",
-        preferredRole: "백엔드",
-        selfKeywords: "분석적, 체계적",
-        matchingPreference: "다양한 역할",
-        status: "waiting",
-      },
-      {
-        id: 3,
-        username: "user3",
-        name: "박지민",
-        studentId: "20230003",
-        mbti: "ESFP",
-        interest: "UI/UX, 그래픽 디자인",
-        communicationStyle: "친화적",
-        preferredRole: "디자이너",
-        selfKeywords: "창의적, 직관적",
-        matchingPreference: "상호보완적",
-        status: "matched",
-      },
-      {
-        id: 4,
-        username: "user4",
-        name: "최민준",
-        studentId: "20230004",
-        mbti: "ENTJ",
-        interest: "프로젝트 관리, 리더십",
-        communicationStyle: "직접적",
-        preferredRole: "PM",
-        selfKeywords: "체계적, 리더십",
-        matchingPreference: "다양한 역할",
-        status: "matched",
-      },
-      {
-        id: 5,
-        username: "user5",
-        name: "정수빈",
-        studentId: "20230005",
-        mbti: "ENFP",
-        interest: "모바일 앱, 게임 개발",
-        communicationStyle: "열정적",
-        preferredRole: "풀스택",
-        selfKeywords: "혁신적, 다재다능",
-        matchingPreference: "비슷한 성격",
-        status: "waiting",
-      },
-    ];
-
-    filteredUsers = [...users];
-    renderUsers();
-    updateStats();
-    console.log("테스트 데이터 로드 완료:", users.length, "명의 사용자");
-  }
-
   // 초기 데이터 로드
   fetchUsers();
 
-  // 자동 새로고침 시작 (테스트 중에는 비활성화)
-  // if (isAutoRefreshEnabled) {
-  //   startAutoRefresh();
-  // }
+  // 자동 새로고침 시작
+  if (isAutoRefreshEnabled) {
+    startAutoRefresh();
+  }
 
   // 전역 함수로 노출
   window.showLoadingIndicator = showLoading;
@@ -560,13 +493,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.showConfirmModal = showConfirmModal;
   window.showSection = showSection;
 });
-
-// 설문 목록을 로드하는 함수 (가정)
-const loadSurveys = async () => {
-  console.log("loadSurveys 함수가 호출되었습니다.");
-  // 여기에 실제 설문 목록을 가져오는 로직을 구현해야 합니다.
-  // 예: API 호출을 통해 설문 목록을 가져오고, 해당 목록을 화면에 표시하는 등의 작업.
-};
 
 // 설문 종료 함수
 async function endSurvey(surveyId) {
@@ -581,7 +507,7 @@ async function endSurvey(surveyId) {
     }
 
     const response = await fetch(
-      `http://192.168.123.100:8080/api/admin/surveys/${surveyId}/end`,
+      `http://<백엔드 IP 또는 도메인>/api/admin/surveys/${surveyId}/end`,
       {
         method: "POST",
         headers: {
@@ -625,7 +551,7 @@ async function startGame(surveyId) {
     }
 
     const response = await fetch(
-      `http://192.168.123.100:8080/api/admin/surveys/${surveyId}/start-game`,
+      `http://<백엔드 IP 또는 도메인>/api/admin/surveys/${surveyId}/start-game`,
       {
         method: "POST",
         headers: {
@@ -669,4 +595,107 @@ function hideLoadingIndicator() {
   if (loadingOverlay) {
     loadingOverlay.classList.add("hidden");
   }
+}
+
+// 설문 목록을 로드하는 함수
+const loadSurveys = async () => {
+  try {
+    showLoadingIndicator();
+
+    const token = localStorage.getItem("token");
+    const adminToken = localStorage.getItem("adminToken");
+
+    if (!token || !adminToken) {
+      throw new Error("인증 정보가 없습니다.");
+    }
+
+    const response = await fetch(
+      `http://<백엔드 IP 또는 도메인>/api/admin/surveys`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Admin-Token": adminToken,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("설문 목록 로드 실패");
+    }
+
+    const surveys = await response.json();
+
+    // 설문 테이블 업데이트
+    if (typeof updateSurveyTable === "function") {
+      updateSurveyTable(surveys);
+    }
+
+    // 설문 통계 업데이트
+    if (typeof updateSurveyStats === "function") {
+      updateSurveyStats(surveys);
+    }
+
+    hideLoadingIndicator();
+    return surveys;
+  } catch (error) {
+    console.error("설문 목록 로드 오류:", error);
+    hideLoadingIndicator();
+    alert(`설문 목록을 불러오는 중 오류가 발생했습니다: ${error.message}`);
+    return [];
+  }
+};
+
+// 설문 테이블 업데이트 함수 (예시)
+function updateSurveyTable(surveys) {
+  const surveyTableBody = document.getElementById("survey-table-body");
+  if (!surveyTableBody) {
+    console.error("survey-table-body를 찾을 수 없습니다.");
+    return;
+  }
+
+  // 기존 테이블 내용 비우기
+  surveyTableBody.innerHTML = "";
+
+  surveys.forEach((survey) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+            <td>${survey.id}</td>
+            <td>${survey.title}</td>
+            <td>${survey.status}</td>
+            <td>
+                <button onclick="endSurvey(${survey.id})">설문 종료</button>
+                <button onclick="startGame(${survey.id})">게임 시작</button>
+            </td>
+        `;
+    surveyTableBody.appendChild(row);
+  });
+}
+
+// 설문 통계 업데이트 함수 (예시)
+function updateSurveyStats(surveys) {
+  const totalSurveysElement = document.getElementById("total-surveys");
+  const activeSurveysElement = document.getElementById("active-surveys");
+  const completedSurveysElement = document.getElementById("completed-surveys");
+
+  if (
+    !totalSurveysElement ||
+    !activeSurveysElement ||
+    !completedSurveysElement
+  ) {
+    console.error("통계 요소를 찾을 수 없습니다.");
+    return;
+  }
+
+  const activeSurveys = surveys.filter(
+    (survey) => survey.status === "active"
+  ).length;
+  const completedSurveys = surveys.filter(
+    (survey) => survey.status === "completed"
+  ).length;
+
+  totalSurveysElement.textContent = surveys.length;
+  activeSurveysElement.textContent = activeSurveys;
+  completedSurveysElement.textContent = completedSurveys;
 }
