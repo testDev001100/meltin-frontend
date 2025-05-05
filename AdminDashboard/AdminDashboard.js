@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 테스트용 토큰 설정
   if (!localStorage.getItem("token")) {
     localStorage.setItem("token", "test-token-12345");
-    localStorage.setItem("adminName", "테스트 관리자");
+    localStorage.setItem("adminName", "관리자");
     localStorage.setItem("adminToken", "admin-token-67890"); // 관리자 토큰 추가
   }
 
