@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    window.location.href = "../LoadingPage/LoadingPage.html";
     // 모든 검증 통과 시 백엔드로 데이터 전송
     await sendSurveyData();
   });
@@ -114,17 +115,14 @@ document.addEventListener("DOMContentLoaded", function () {
         matchingPreference: matchingPreferenceSelect.value,
       };
 
-      const response = await fetch(
-        "http://192.168.123.100:8080/api/survey",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // 토큰 형식 일치
-          },
-          body: JSON.stringify(surveyData),
-        }
-      );
+      const response = await fetch("http://192.168.123.100:8080/api/survey", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // 토큰 형식 일치
+        },
+        body: JSON.stringify(surveyData),
+      });
 
       // 응답이 성공적이지 않으면 에러 처리
       if (!response.ok) {
