@@ -203,6 +203,24 @@ body {
   background-color: #e9ecef;
 }
 
+/* 검색 버튼 스타일 추가 */
+.search-btn {
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 40px;
+  margin-top: 20px;
+  align-self: flex-end;
+}
+
+.search-btn:hover {
+  background-color: var(--secondary-color);
+}
+
 /* 필터 섹션 반응형 스타일 */
 @media (max-width: 768px) {
   .filter-container {

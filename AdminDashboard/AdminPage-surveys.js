@@ -4,138 +4,17 @@ let filteredSurveyResponses = [];
 let currentSurveyPage = 1;
 const responsesPerPage = 10;
 
-// Undeclared variables (assuming these are defined elsewhere or imported)
-const showLoadingIndicator = () =>
-  console.log("showLoadingIndicator placeholder");
-const hideLoadingIndicator = () =>
-  console.log("hideLoadingIndicator placeholder");
-const showConfirmModal = (message, callback) => {
-  console.log("showConfirmModal placeholder:", message);
-  if (callback) {
-    callback();
-  }
-};
-const endSurvey = (surveyId) => console.log("endSurvey placeholder:", surveyId);
-const startGame = (surveyId) => console.log("startGame placeholder:", surveyId);
-
-// 설문 목록 로드 함수
-async function loadSurveys() {
-  try {
-    const token = localStorage.getItem("token");
-    const adminToken = localStorage.getItem("adminToken");
-
-    if (!token || !adminToken) {
-      throw new Error("인증 정보가 없습니다.");
-    }
-
-    // 로딩 표시
-    showLoadingIndicator();
-
-    // 설문 목록 가져오기 (테스트를 위해 API 호출 대신 더미 데이터 사용)
-    // 실제 구현 시 아래 주석 해제
-    /*
-    const response = await fetch('http://192.168.123.100:8080/api/admin/surveys', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Admin-Token': adminToken
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error('설문 데이터 로드 실패');
-    }
-    
-    const surveys = await response.json();
-    */
-
-    // 테스트용 더미 데이터
-    const surveys = [
-      {
-        id: 1,
-        title: "2023년 1학기 프로젝트 팀 매칭 설문",
-        status: "active",
-        isEnded: false,
-        gameStarted: false,
-      },
-      {
-        id: 2,
-        title: "2023년 2학기 프로젝트 팀 매칭 설문",
-        status: "active",
-        isEnded: false,
-        gameStarted: false,
-      },
-      {
-        id: 3,
-        title: "2022년 2학기 프로젝트 팀 매칭 설문",
-        status: "completed",
-        isEnded: true,
-        gameStarted: true,
-      },
-      {
-        id: 4,
-        title: "2022년 1학기 프로젝트 팀 매칭 설문",
-        status: "completed",
-        isEnded: true,
-        gameStarted: true,
-      },
-      {
-        id: 5,
-        title: "2024년 1학기 프로젝트 팀 매칭 설문 (예정)",
-        status: "active",
-        isEnded: false,
-        gameStarted: false,
-      },
-    ];
-
-    // 설문 테이블 업데이트
-    updateSurveyTable(surveys);
-
-    // 설문 통계 업데이트
-    updateSurveyStats(surveys);
-
-    // 설문 응답 데이터 로드
-    await loadSurveyResponses();
-
-    // 로딩 숨기기
-    hideLoadingIndicator();
-  } catch (error) {
-    console.error("설문 데이터 로드 오류:", error);
-    hideLoadingIndicator();
-    alert(`설문 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`);
-  }
-}
-
 // 설문 응답 데이터 로드 함수
-async function loadSurveyResponses() {
+function loadSurveyResponses() {
   try {
-    const token = localStorage.getItem("token");
-    const adminToken = localStorage.getItem("adminToken");
-
-    if (!token || !adminToken) {
-      throw new Error("인증 정보가 없습니다.");
-    }
+    console.log("설문 응답 데이터 로드 함수 호출됨");
 
     // 로딩 표시
-    showLoadingIndicator();
-
-    // 설문 응답 데이터 가져오기 (테스트를 위해 API 호출 대신 더미 데이터 사용)
-    // 실제 구현 시 아래 주석 해제
-    /*
-    const response = await fetch('http://192.168.123.100:8080/api/admin/survey-responses', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Admin-Token': adminToken
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error('설문 응답 데이터 로드 실패');
+    if (typeof window.showLoadingIndicator === "function") {
+      window.showLoadingIndicator();
+    } else {
+      console.error("showLoadingIndicator 함수를 찾을 수 없습니다.");
     }
-    
-    const responses = await response.json();
-    */
 
     // 테스트용 더미 데이터 - 제공된 HTML의 옵션 값을 사용하여 업데이트
     const responses = [
@@ -197,7 +76,7 @@ async function loadSurveyResponses() {
         selfKeywords: "도전적인, 자율적인",
         matchingPreference: "다양한 시각을 존중하며 일하는 것",
         submittedAt: "2023-09-02 11:20:45",
-        status: "pending",
+        status: "waiting",
       },
       {
         id: 5,
@@ -272,7 +151,7 @@ async function loadSurveyResponses() {
         selfKeywords: "배려 깊은, 책임감 있는",
         matchingPreference: "비슷한 성격의 사람과 함께 일하는 것",
         submittedAt: "2023-09-05 09:30:15",
-        status: "pending",
+        status: "waiting",
       },
       {
         id: 10,
@@ -289,166 +168,141 @@ async function loadSurveyResponses() {
         submittedAt: "2023-09-05 14:15:40",
         status: "waiting",
       },
+      {
+        id: 11,
+        name: "신동훈",
+        studentId: "20230011",
+        mbti: "ISFP",
+        interest: "기술",
+        communicationStyle: "감정적으로 연결되기",
+        conflictResponse: "피하는 편이다",
+        preferredRole: "실행자",
+        preferredTeamMood: "편안하고 자유로운 분위기",
+        selfKeywords: "창의적, 유머러스한",
+        matchingPreference: "비슷한 성격의 사람과 함께 일하는 것",
+        submittedAt: "2023-09-06 10:20:15",
+        status: "waiting",
+      },
+      {
+        id: 12,
+        name: "장하은",
+        studentId: "20230012",
+        mbti: "ESTJ",
+        interest: "마케팅",
+        communicationStyle: "직접적이고 명확하게 말하기",
+        conflictResponse: "논리적으로 해결하기",
+        preferredRole: "리더",
+        preferredTeamMood: "목표 지향적이고 성과를 중시하는 분위기",
+        selfKeywords: "책임감 있는, 적극적인",
+        matchingPreference: "다양한 시각을 존중하며 일하는 것",
+        submittedAt: "2023-09-06 11:30:45",
+        status: "matched",
+      },
+      {
+        id: 13,
+        name: "김민석",
+        studentId: "20230013",
+        mbti: "INFJ",
+        interest: "환경",
+        communicationStyle: "이야기나 비유를 통해 전달하기",
+        conflictResponse: "감정을 고려하여 해결하기",
+        preferredRole: "아이디어 제시자",
+        preferredTeamMood: "협력적이고 팀워크가 중요한 분위기",
+        selfKeywords: "배려 깊은, 창의적",
+        matchingPreference: "유사한 관심사와 목표를 가진 사람들과 일하는 것",
+        submittedAt: "2023-09-07 09:15:30",
+        status: "waiting",
+      },
+      {
+        id: 14,
+        name: "이지은",
+        studentId: "20230014",
+        mbti: "ENTP",
+        interest: "디자인",
+        communicationStyle: "논리적으로 설명하기",
+        conflictResponse: "타협하기",
+        preferredRole: "분석가",
+        preferredTeamMood: "열정적이고 동기 부여가 되는 분위기",
+        selfKeywords: "도전적인, 분석적",
+        matchingPreference: "서로 다른 성격의 사람들과 협력하는 것",
+        submittedAt: "2023-09-07 14:45:20",
+        status: "waiting",
+      },
+      {
+        id: 15,
+        name: "박준영",
+        studentId: "20230015",
+        mbti: "ISFJ",
+        interest: "헬스케어",
+        communicationStyle: "감정적으로 연결되기",
+        conflictResponse: "대화를 통해 해결하기",
+        preferredRole: "서포터",
+        preferredTeamMood: "편안하고 자유로운 분위기",
+        selfKeywords: "책임감 있는, 배려 깊은",
+        matchingPreference: "비슷한 성격의 사람과 함께 일하는 것",
+        submittedAt: "2023-09-08 10:30:15",
+        status: "matched",
+      },
     ];
 
     // 설문 응답 데이터 저장
     surveyResponses = responses;
     filteredSurveyResponses = [...responses];
+    console.log(
+      "설문 응답 데이터 로드됨:",
+      surveyResponses.length,
+      "개의 응답"
+    );
 
     // 설문 응답 테이블 업데이트
     renderSurveyResponses();
+    console.log("설문 응답 렌더링 완료");
+
+    // 전체 설문 수 업데이트
+    updateTotalSurveysCount();
 
     // 로딩 숨기기
-    hideLoadingIndicator();
+    if (typeof window.hideLoadingIndicator === "function") {
+      window.hideLoadingIndicator();
+    } else {
+      console.error("hideLoadingIndicator 함수를 찾을 수 없습니다.");
+    }
+
+    console.log("설문 응답 데이터 로드 완료");
+    return true;
   } catch (error) {
     console.error("설문 응답 데이터 로드 오류:", error);
-    hideLoadingIndicator();
+    if (typeof window.hideLoadingIndicator === "function") {
+      window.hideLoadingIndicator();
+    }
     alert(
       `설문 응답 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`
     );
+    return false;
   }
 }
 
-// 설문 통계 업데이트 함수
-function updateSurveyStats(surveys) {
-  const totalSurveysCount = surveys.length;
-  const activeSurveysCount = surveys.filter(
-    (survey) => survey.status === "active"
-  ).length;
-  const completedSurveysCount = surveys.filter(
-    (survey) => survey.status === "completed"
-  ).length;
-
+// 전체 설문 수 업데이트 함수
+function updateTotalSurveysCount() {
+  const totalSurveysCount = surveyResponses.length;
   document.getElementById(
     "total-surveys-count"
   ).textContent = `${totalSurveysCount}개`;
-  document.getElementById(
-    "active-surveys-count"
-  ).textContent = `${activeSurveysCount}개`;
-  document.getElementById(
-    "completed-surveys-count"
-  ).textContent = `${completedSurveysCount}개`;
-}
-
-// 설문 테이블 업데이트 함수
-function updateSurveyTable(surveys) {
-  const surveyTableBody = document.getElementById("survey-list-body");
-
-  if (!surveyTableBody) {
-    console.error("설문 테이블을 찾을 수 없습니다.");
-    return;
-  }
-
-  // 테이블 초기화
-  surveyTableBody.innerHTML = "";
-
-  // 설문 데이터로 테이블 채우기
-  surveys.forEach((survey) => {
-    const row = document.createElement("tr");
-
-    // 설문 상태에 따른 배지 클래스 결정
-    const statusClass = survey.status === "active" ? "active" : "completed";
-    const statusText = survey.status === "active" ? "진행 중" : "완료";
-
-    // 종료 여부에 따른 배지 클래스 결정
-    const endedClass = survey.isEnded ? "completed" : "pending";
-    const endedText = survey.isEnded ? "종료됨" : "진행 중";
-
-    // 게임 시작 여부에 따른 배지 클래스 결정
-    const gameClass = survey.gameStarted ? "active" : "inactive";
-    const gameText = survey.gameStarted ? "시작됨" : "대기 중";
-
-    row.innerHTML = `
-      <td><input type="checkbox" class="select-survey"></td>
-      <td>${survey.id}</td>
-      <td>${survey.title}</td>
-      <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-      <td><span class="status-badge ${endedClass}">${endedText}</span></td>
-      <td><span class="status-badge ${gameClass}">${gameText}</span></td>
-      <td>
-        <div class="action-buttons">
-          <button class="end-survey-btn ${
-            survey.isEnded ? "disabled-btn" : ""
-          }" 
-                  data-survey-id="${survey.id}" 
-                  data-survey-title="${survey.title}"
-                  ${survey.isEnded ? "disabled" : ""}>
-            <i class="fas fa-stop-circle"></i> 설문 종료
-          </button>
-          <button class="start-game-btn ${
-            !survey.isEnded || survey.gameStarted ? "disabled-btn" : ""
-          }" 
-                  data-survey-id="${survey.id}" 
-                  data-survey-title="${survey.title}"
-                  ${!survey.isEnded || survey.gameStarted ? "disabled" : ""}>
-            <i class="fas fa-play-circle"></i> 게임 시작
-          </button>
-        </div>
-      </td>
-    `;
-
-    surveyTableBody.appendChild(row);
-  });
-
-  // 설문 종료 버튼 이벤트 리스너 추가
-  const endSurveyBtns = document.querySelectorAll(
-    "#surveys-section .end-survey-btn:not(.disabled-btn)"
-  );
-
-  endSurveyBtns.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const surveyId = this.getAttribute("data-survey-id");
-      const surveyTitle = this.getAttribute("data-survey-title");
-
-      showConfirmModal(
-        `"${surveyTitle}" 설문을 종료하시겠습니까? 이 작업은 되돌릴 수 없습니다.`,
-        () => {
-          endSurvey(surveyId);
-        }
-      );
-    });
-  });
-
-  // 게임 시작 버튼 이벤트 리스너 추가
-  const startGameBtns = document.querySelectorAll(
-    "#surveys-section .start-game-btn:not(.disabled-btn)"
-  );
-
-  startGameBtns.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const surveyId = this.getAttribute("data-survey-id");
-      const surveyTitle = this.getAttribute("data-survey-title");
-
-      showConfirmModal(
-        `"${surveyTitle}" 관련 게임을 시작하시겠습니까? 모든 사용자가 게임 페이지로 이동합니다.`,
-        () => {
-          startGame(surveyId);
-        }
-      );
-    });
-  });
-
-  // 전체 선택 체크박스 이벤트 리스너 추가
-  const selectAllCheckbox = document.getElementById("select-all-surveys");
-  const selectItemCheckboxes = document.querySelectorAll(
-    "#surveys-section .select-survey"
-  );
-
-  if (selectAllCheckbox) {
-    selectAllCheckbox.addEventListener("change", function () {
-      selectItemCheckboxes.forEach((checkbox) => {
-        checkbox.checked = this.checked;
-      });
-    });
-  }
 }
 
 // 설문 응답 렌더링 함수
 function renderSurveyResponses() {
   const surveyResponsesBody = document.getElementById("survey-responses-body");
+  console.log(
+    "설문 응답 렌더링 시작",
+    filteredSurveyResponses.length,
+    "개의 응답"
+  );
 
   if (!surveyResponsesBody) {
-    console.error("설문 응답 테이블을 찾을 수 없습니다.");
+    console.error(
+      "설문 응답 테이블을 찾을 수 없습니다: #survey-responses-body"
+    );
     return;
   }
 
@@ -556,6 +410,7 @@ function updateSurveyPagination() {
 
 // 설문 응답 필터 적용
 function applySurveyFilters() {
+  console.log("설문 필터 적용 중...");
   const mbtiValue = document.getElementById("filter-mbti").value;
   const interestValue = document.getElementById("filter-interest").value;
   const communicationValue = document.getElementById(
@@ -566,6 +421,17 @@ function applySurveyFilters() {
   const teamMoodValue = document.getElementById("filter-team-mood").value;
   const keywordsValue = document.getElementById("filter-keywords").value;
   const matchingValue = document.getElementById("filter-matching").value;
+
+  console.log("필터 값:", {
+    mbti: mbtiValue,
+    interest: interestValue,
+    communication: communicationValue,
+    conflict: conflictValue,
+    role: roleValue,
+    teamMood: teamMoodValue,
+    keywords: keywordsValue,
+    matching: matchingValue,
+  });
 
   filteredSurveyResponses = surveyResponses.filter((response) => {
     const mbtiMatch = mbtiValue === "" || response.mbti === mbtiValue;
@@ -596,29 +462,27 @@ function applySurveyFilters() {
     );
   });
 
+  console.log("필터링 결과:", filteredSurveyResponses.length, "개의 응답");
   currentSurveyPage = 1;
   renderSurveyResponses();
 }
 
-// 페이지 로드 시 이벤트 리스너 추가
-document.addEventListener("DOMContentLoaded", () => {
+// 설문 패널 초기화 함수
+function initializeSurveyPanel() {
+  console.log("설문 패널 초기화 중...");
+
   // 설문 필터 이벤트 리스너
   const filterSelects = document.querySelectorAll(".survey-filter");
-  const clearFiltersBtn = document.getElementById("clear-survey-filters");
+  const applyFiltersBtn = document.getElementById("apply-survey-filters");
 
-  filterSelects.forEach((select) => {
-    select.addEventListener("change", applySurveyFilters);
-  });
-
-  if (clearFiltersBtn) {
-    clearFiltersBtn.addEventListener("click", () => {
-      filterSelects.forEach((select) => {
-        select.value = "";
-      });
-      filteredSurveyResponses = [...surveyResponses];
-      currentSurveyPage = 1;
-      renderSurveyResponses();
+  // 검색 버튼 이벤트 리스너
+  if (applyFiltersBtn) {
+    applyFiltersBtn.addEventListener("click", () => {
+      console.log("검색 버튼 클릭됨");
+      applySurveyFilters();
     });
+  } else {
+    console.error("검색 버튼을 찾을 수 없습니다: #apply-survey-filters");
   }
 
   // 페이지네이션 이벤트 리스너
@@ -648,15 +512,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 새로고침 버튼 이벤트 리스너 추가
   const refreshSurveysBtn = document.getElementById("refresh-surveys-btn");
-  const refreshSurveyListBtn = document.getElementById(
-    "refresh-survey-list-btn"
-  );
 
   if (refreshSurveysBtn) {
-    refreshSurveysBtn.addEventListener("click", loadSurveyResponses);
+    refreshSurveysBtn.addEventListener("click", () => {
+      // 테스트를 위해 로딩 표시
+      if (typeof window.showLoadingIndicator === "function") {
+        window.showLoadingIndicator();
+      }
+
+      // 약간의 지연 후 데이터 로드 (로딩 효과를 보기 위함)
+      setTimeout(() => {
+        loadSurveyResponses();
+      }, 500);
+    });
   }
 
-  if (refreshSurveyListBtn) {
-    refreshSurveyListBtn.addEventListener("click", loadSurveys);
-  }
+  console.log("설문 패널 초기화 완료");
+}
+
+// DOM이 로드된 후 실행
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("AdminPage-surveys.js DOMContentLoaded 이벤트 발생");
+
+  // 초기화 함수 호출
+  initializeSurveyPanel();
+
+  // 전역 스코프에 함수 노출
+  window.loadSurveyResponses = loadSurveyResponses;
+  console.log("loadSurveyResponses 함수가 전역 스코프에 노출됨");
+
+  // 초기 데이터 로드
+  setTimeout(() => {
+    console.log("초기 데이터 로드 시도");
+    loadSurveyResponses();
+  }, 500);
 });
+
+// 전역 스코프에 함수 노출
+window.loadSurveyResponses = loadSurveyResponses;
+console.log("loadSurveyResponses 함수가 전역 스코프에 노출됨 (파일 끝)");
