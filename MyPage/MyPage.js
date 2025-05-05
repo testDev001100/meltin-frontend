@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const response = await fetch("http://192.168.123.100:8080/api/users/me", {
       method: "GET",
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -37,6 +37,46 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (PasswordchangeBtn) {
     PasswordchangeBtn.addEventListener("click", function () {
       window.location.href = "../PasswordchangePage/PasswordchangePage.html";
+    });
+  }
+
+  const deleteBtn = this.document.getElementById("delete-account-btn");
+  if (deleteBtn) {
+    delteteBtn.addEventListener("click", async function () {
+      if (!confirm("정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
+        return;
+      }
+
+      try {
+        const response = await fetch("http://192.168.123.100:8080/api/users", {
+          method: "DELETE",
+          header: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          let errMsg = "회원 탈퇴에 실패했습니다.";
+          try {
+            const contentType = response.header.get("Content-Type");
+            if (contentType && contentType.includes("application/json")) {
+              const data = await response.json();
+              errMsg = data.message || errMsg;
+            }
+          } catch (e) {
+            console.error("에러 파싱 실패:", e);
+          }
+          throw new Error(errMsg);
+        }
+
+        alert("회원 탈퇴가 완료되었습니다.");
+        localStorage.removeItem("token");
+        window.location.href = "../LogInPage/LogInPage.html";
+      } catch (error) {
+        console.error("회원 탈퇴 오류:", error);
+        document.getElementById("delete-error-message").textContent =
+          error.message;
+      }
     });
   }
 });
