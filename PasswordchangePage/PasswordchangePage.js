@@ -21,12 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
+
+      console.log("토큰:", token);
       const response = await fetch("http://192.168.123.100:8080/api/users/password", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({
           currentPassword: currentPassword,
           newPassword: newPassword,
