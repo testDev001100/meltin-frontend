@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
       };
 
       const response = await fetch(
-        "http://192.168.123.100:8080/api/users/survey",
+        "http://192.168.123.100:8080/api/survey",
         {
           method: "POST",
           headers: {
