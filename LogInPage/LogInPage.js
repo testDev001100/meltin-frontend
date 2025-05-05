@@ -32,7 +32,8 @@ document
       // ✅ 헤더에서 토큰 추출
       const token = response.headers.get("Authorization");
       if (token) {
-        localStorage.setItem("token", token);
+        const pureToken = token.replace("Bearer ", "");
+        localStorage.setItem("token", pureToken);
         alert("로그인 성공!");
       } else {
         alert("로그인 성공 (토큰 없음)");
