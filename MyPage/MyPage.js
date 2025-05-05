@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const deleteBtn = this.document.getElementById("delete-account-btn");
   if (deleteBtn) {
-    delteteBtn.addEventListener("click", async function () {
+    deleteBtn.addEventListener("click", async function () {
       if (!confirm("정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
         return;
       }
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       try {
         const response = await fetch("http://192.168.123.100:8080/api/users", {
           method: "DELETE",
-          header: {
+          headers: {
             Authorization: `Bearer ${token}`,
           },
         });
