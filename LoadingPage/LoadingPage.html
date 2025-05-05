@@ -12,16 +12,17 @@
   </head>
   <body>
     <div class="loading-container">
-      <div class="loading-text">팀 매칭 중입니다</div>
+      <div id="loading-text" class="loading-text">매칭 중입니다</div>
       <div class="dot-container">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
+      <div id="result-container" class="hidden">
+        <p id="result-text">팀이 완성되었습니다!</p>
+        <button id="confirm-btn" onclick="goToResult()">팀 확인하기</button>
+      </div>
     </div>
-    <button id="confirm-btn" class="hidden" onclick="goToResult()">
-      팀 확인하기
-    </button>
   </body>
   <script src="LoadingPage.js"></script>
 </html>
