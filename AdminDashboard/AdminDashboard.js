@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentConfirmCallback = null
 
   // 백엔드 API 기본 URL
-  const API_BASE_URL = "http://localhost:8080/api"
+  const API_BASE_URL = "http://192.168.123.100:8080/api/admin/me"
 
   // 테스트용 토큰 설정
   if (!localStorage.getItem("token")) {
