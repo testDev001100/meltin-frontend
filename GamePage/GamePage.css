@@ -29,11 +29,20 @@ body {
 .bingo-cell {
   background-color: #f0f0f0;
   border-radius: 8px;
-  padding: 2rem;
   text-align: center;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  /* ✅ 정사각형 유지 */
+  aspect-ratio: 1 / 1;
+
+  /* ✅ 중앙 정렬 및 여백 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* ✅ 패딩 제거 (aspect-ratio를 쓸 때는 보통 안 씀) */
+  padding: 0;
 }
 
 .bingo-cell.clicked {
