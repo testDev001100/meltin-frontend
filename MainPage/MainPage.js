@@ -43,10 +43,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           window.location.href = "../AdminDashboard/AdminDashboard.html";
         } else {
           alert("관리자만 접근할 수 있습니다.");
+          // 일반 유저일 때는 토큰 삭제하지 않음!
         }
+      } else if (response.status === 401) {
+        alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+        localStorage.removeItem("token");
+        window.location.href = "../LogInPage/LogInPage.html";
       } else {
         alert("사용자 정보를 확인할 수 없습니다.");
-        localStorage.removeItem("token");
       }
     } catch (err) {
       console.error("❌ 관리자 확인 실패:", err);
@@ -57,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 사용자 정보 불러오기
   if (token) {
     try {
-      const response = await fetch("http://192.168.123.100:8080/api/admin/me", {
+      const response = await fetch("http://192.168.123.100:8080/api/users/me", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -73,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (user.role === "ROLE_ADMIN") {
           adminBtn.style.display = "inline-block";
         }
-      } else {
+      } else if (response.status === 401) {
         localStorage.removeItem("token");
       }
     } catch {
