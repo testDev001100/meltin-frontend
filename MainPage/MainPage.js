@@ -4,33 +4,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   const userArea = document.getElementById("userArea");
   const usernameSpan = document.getElementById("username");
   const logoutBtn = document.getElementById("logoutBtn");
-  const adminBtn = document.getElementById("adminBtn"); // 관리자 버튼
+  const adminBtn = document.getElementById("adminBtn");
   const hamburger = document.getElementById("hamburger");
   const navMenu = document.getElementById("navMenu");
 
   const token = localStorage.getItem("token");
-
-  // 기본적으로 로그인 상태로 판단하지 않음
   let isLoggedIn = false;
 
-  // logo 클릭 시 메인 페이지로 이동
+  // 로고 클릭 → 메인 페이지
   if (logo) {
-    logo.addEventListener("click", function () {
+    logo.addEventListener("click", () => {
       window.location.href = "MainPage.html";
     });
   }
 
-  // login 버튼 클릭 시 로그인 페이지로 이동
+  // 로그인 버튼 클릭
   if (loginBtn) {
-    loginBtn.addEventListener("click", function () {
+    loginBtn.addEventListener("click", () => {
       window.location.href = "../LogInPage/LogInPage.html";
     });
   }
 
-  // 관리자 권한 확인
+  // 사용자 정보 요청 및 UI 업데이트
   if (token) {
     try {
-      const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+      const response = await fetch("http://192.168.123.100:8080/api/admin/me", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -40,34 +38,43 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (response.ok) {
         const user = await response.json();
         isLoggedIn = true;
+
+        // 사용자 이름 표시
         usernameSpan.textContent = `${user.name}님`;
 
-        // 관리자 권한 체크
-        if (user.role === "admin") {
-          adminBtn.style.display = "inline-block";
+        // 마이페이지 이동
+        usernameSpan.addEventListener("click", () => {
+          window.location.href = "../MyPage/MyPage.html";
+        });
 
-          // 관리자 페이지로 이동하는 기능
-          adminBtn.addEventListener("click", function () {
-            window.location.href = "../AdminDashboard/AdminDashboard.html"; // 관리자 페이지로 리디렉션
+        // 관리자 권한일 경우 관리자 버튼 표시
+        if (user.role === "ROLE_ADMIN") {
+          adminBtn.style.display = "inline-block";
+          adminBtn.addEventListener("click", () => {
+            window.location.href = "../AdminDashboard/AdminDashboard.html";
           });
         } else {
           adminBtn.style.display = "none";
         }
-
-        // 마이 페이지로 이동
-        usernameSpan.addEventListener("click", () => {
-          window.location.href = "../MyPage/MyPage.html";
-        });
       } else {
         localStorage.removeItem("token");
       }
-    } catch (error) {
-      console.error("유저 정보 요청 실패:", error);
+    } catch (err) {
+      console.error("유저 정보 불러오기 실패:", err);
       localStorage.removeItem("token");
     }
   }
 
-  // UI 업데이트
+  // 로그아웃 기능
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      isLoggedIn = false;
+      updateAuthUI();
+    });
+  }
+
+  // 인증 UI 상태 업데이트 함수
   function updateAuthUI() {
     if (isLoggedIn) {
       loginBtn.style.display = "none";
@@ -75,47 +82,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       loginBtn.style.display = "block";
       userArea.style.display = "none";
+      adminBtn.style.display = "none"; // 로그아웃 후 관리자 버튼 숨김
     }
   }
 
-  // 로그아웃 처리
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    isLoggedIn = false;
-    updateAuthUI();
-  });
-
-  // 네비게이션 바
-  const navLinks = navMenu.querySelectorAll("a");
-  navLinks.forEach((link) => {
+  // 네비게이션 링크 클릭 시 메뉴 닫기
+  navMenu.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       navMenu.classList.remove("active");
       hamburger.classList.remove("active");
     });
   });
 
-  window.addEventListener("scroll", function () {
+  // 스크롤 시 네비바 스타일 변경
+  window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");
-    if (window.scrollY > 50) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
   });
 
   // 햄버거 메뉴 토글
-  hamburger.addEventListener("click", function () {
+  hamburger.addEventListener("click", () => {
     navMenu.classList.toggle("active");
     hamburger.classList.toggle("active");
   });
 
   // FAQ 카드 클릭 시 활성화
-  const faqCards = document.querySelectorAll(".faqCard");
-  faqCards.forEach((card) => {
+  document.querySelectorAll(".faqCard").forEach((card) => {
     card.addEventListener("click", () => {
       card.classList.toggle("active");
     });
   });
 
+  // 초기 UI 상태 적용
   updateAuthUI();
 });
