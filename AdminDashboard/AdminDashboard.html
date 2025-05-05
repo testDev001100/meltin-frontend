@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>관리자 대시보드</title>
+    <link rel="stylesheet" href="AdminDashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- 사이드바 -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>관리자 패널</h2>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li class="active" data-section="users">
+              <i class="fas fa-users"></i> 사용자 관리
+            </li>
+            <li data-section="surveys">
+              <i class="fas fa-clipboard-list"></i> 설문 관리
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- 메인 콘텐츠 -->
+      <main class="main-content">
+        <!-- 상단 헤더 -->
+        <header class="top-header">
+          <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </div>
+          <div class="header-title">
+            <h1 id="section-title">사용자 관리</h1>
+          </div>
+          <div class="user-info">
+            <span id="admin-name">관리자</span>
+            <button id="logout-btn" class="logout-btn">로그아웃</button>
+          </div>
+        </header>
+
+        <!-- 사용자 관리 섹션 -->
+        <section id="users-section" class="content-section active">
+          <!-- 필터 섹션 -->
+          <section class="filter-section">
+            <div class="filter-container">
+              <div class="filter-item">
+                <label for="name-filter">이름</label>
+                <input
+                  type="text"
+                  id="name-filter"
+                  placeholder="이름으로 검색"
+                />
+              </div>
+              <div class="filter-item">
+                <label for="student-id-filter">학번</label>
+                <input
+                  type="text"
+                  id="student-id-filter"
+                  placeholder="학번으로 검색"
+                />
+              </div>
+              <button id="clear-filters" class="clear-btn">필터 초기화</button>
+            </div>
+          </section>
+
+          <!-- 통계 카드 -->
+          <section class="stats-section">
+            <div class="stats-card">
+              <div class="stats-icon">
+                <i class="fas fa-user-clock"></i>
+              </div>
+              <div class="stats-info">
+                <h3>대기 중</h3>
+                <p id="waiting-count">0명</p>
+              </div>
+            </div>
+            <div class="stats-card">
+              <div class="stats-icon">
+                <i class="fas fa-user-check"></i>
+              </div>
+              <div class="stats-info">
+                <h3>매칭됨</h3>
+                <p id="matched-count">0명</p>
+              </div>
+            </div>
+            <div class="stats-card action-card">
+              <button id="match-all-btn" class="match-all-btn">
+                <i class="fas fa-users-cog"></i> 모든 대기 사용자 매칭하기
+              </button>
+            </div>
+          </section>
+
+          <!-- 사용자 테이블 섹션 -->
+          <section class="table-section">
+            <div class="table-header">
+              <h2>사용자 목록</h2>
+              <div class="table-actions">
+                <span id="auto-refresh-status">자동 새로고침: 켜짐</span>
+                <button id="toggle-refresh" class="toggle-btn">
+                  <i class="fas fa-toggle-on"></i>
+                </button>
+                <button id="refresh-btn" class="refresh-btn">
+                  <i class="fas fa-sync-alt"></i> 새로고침
+                </button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="users-table">
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>아이디</th>
+                    <th>학번</th>
+                    <th>MBTI</th>
+                    <th>관심 주제</th>
+                    <th>소통 스타일</th>
+                    <th>선호 역할</th>
+                    <th>키워드</th>
+                    <th>매칭 선호도</th>
+                    <th>상태</th>
+                    <th>작업</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body">
+                  <!-- 사용자 데이터가 여기에 동적으로 추가됩니다 -->
+                  <tr>
+                    <td colspan="11" class="loading-message">
+                      데이터를 불러오는 중...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination">
+              <button id="prev-page" disabled>
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span id="page-info">페이지 1 / 1</span>
+              <button id="next-page" disabled>
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <!-- 설문 관리 섹션 -->
+        <section id="surveys-section" class="content-section">
+          <!-- 설문 통계 카드 -->
+          <section class="stats-section">
+            <div class="stats-card">
+              <div class="stats-icon">
+                <i class="fas fa-clipboard-list"></i>
+              </div>
+              <div class="stats-info">
+                <h3>전체 설문</h3>
+                <p id="total-surveys-count">0개</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 설문 필터 섹션 -->
+          <section class="filter-section">
+            <div class="filter-container">
+              <div class="filter-item">
+                <label for="filter-mbti">MBTI</label>
+                <select id="filter-mbti" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="ENFP">ENFP</option>
+                  <option value="INTJ">INTJ</option>
+                  <option value="ISFJ">ISFJ</option>
+                  <option value="ESTP">ESTP</option>
+                  <option value="INFJ">INFJ</option>
+                  <option value="ENTP">ENTP</option>
+                  <option value="ISFP">ISFP</option>
+                  <option value="ESTJ">ESTJ</option>
+                  <option value="INFP">INFP</option>
+                  <option value="ENFJ">ENFJ</option>
+                  <option value="ISTJ">ISTJ</option>
+                  <option value="ESFP">ESFP</option>
+                  <option value="ISTP">ISTP</option>
+                  <option value="ESFJ">ESFJ</option>
+                  <option value="INTP">INTP</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-interest">관심 주제</label>
+                <select id="filter-interest" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="기술">기술</option>
+                  <option value="디자인">디자인</option>
+                  <option value="마케팅">마케팅</option>
+                  <option value="헬스케어">헬스케어</option>
+                  <option value="사회적 문제 해결">사회적 문제 해결</option>
+                  <option value="환경">환경</option>
+                  <option value="문화/예술">문화/예술</option>
+                  <option value="경제">경제</option>
+                  <option value="심리학">심리학</option>
+                  <option value="교육">교육</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-communication">소통 스타일</label>
+                <select id="filter-communication" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="직접적이고 명확하게 말하기">
+                    직접적이고 명확하게 말하기
+                  </option>
+                  <option value="논리적으로 설명하기">
+                    논리적으로 설명하기
+                  </option>
+                  <option value="감정적으로 연결되기">
+                    감정적으로 연결되기
+                  </option>
+                  <option value="이야기나 비유를 통해 전달하기">
+                    이야기나 비유를 통해 전달하기
+                  </option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-conflict">갈등 대처 방식</label>
+                <select id="filter-conflict" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="논리적으로 해결하기">
+                    논리적으로 해결하기
+                  </option>
+                  <option value="감정을 고려하여 해결하기">
+                    감정을 고려하여 해결하기
+                  </option>
+                  <option value="타협하기">타협하기</option>
+                  <option value="대화를 통해 해결하기">
+                    대화를 통해 해결하기
+                  </option>
+                  <option value="피하는 편이다">피하는 편이다</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-role">선호 역할</label>
+                <select id="filter-role" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="리더">리더</option>
+                  <option value="아이디어 제시자">아이디어 제시자</option>
+                  <option value="조정자">조정자</option>
+                  <option value="실행자">실행자</option>
+                  <option value="분석가">분석가</option>
+                  <option value="서포터">서포터</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-team-mood">선호 팀 분위기</label>
+                <select id="filter-team-mood" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="열정적이고 동기 부여가 되는 분위기">
+                    열정적이고 동기 부여가 되는 분위기
+                  </option>
+                  <option value="편안하고 자유로운 분위기">
+                    편안하고 자유로운 분위기
+                  </option>
+                  <option value="목표 지향적이고 성과를 중시하는 분위기">
+                    목표 지향적이고 성과를 중시하는 분위기
+                  </option>
+                  <option value="협력적이고 팀워크가 중요한 분위기">
+                    협력적이고 팀워크가 중요한 분위기
+                  </option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-keywords">키워드</label>
+                <select id="filter-keywords" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="창의적">창의적</option>
+                  <option value="협력적">협력적</option>
+                  <option value="분석적">분석적</option>
+                  <option value="책임감 있는">책임감 있는</option>
+                  <option value="적극적인">적극적인</option>
+                  <option value="배려 깊은">배려 깊은</option>
+                  <option value="도전적인">도전적인</option>
+                  <option value="자율적인">자율적인</option>
+                  <option value="유머러스한">유머러스한</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-matching">매칭 선호</label>
+                <select id="filter-matching" class="survey-filter">
+                  <option value="">전체</option>
+                  <option value="비슷한 성격의 사람과 함께 일하는 것">
+                    비슷한 성격의 사람과 함께 일하는 것
+                  </option>
+                  <option value="서로 다른 성격의 사람들과 협력하는 것">
+                    서로 다른 성격의 사람들과 협력하는 것
+                  </option>
+                  <option
+                    value="유사한 관심사와 목표를 가진 사람들과 일하는 것"
+                  >
+                    유사한 관심사와 목표를 가진 사람들과 일하는 것
+                  </option>
+                  <option value="다양한 시각을 존중하며 일하는 것">
+                    다양한 시각을 존중하며 일하는 것
+                  </option>
+                </select>
+              </div>
+              <button id="clear-survey-filters" class="clear-btn">
+                필터 초기화
+              </button>
+            </div>
+          </section>
+
+          <!-- 설문 테이블 섹션 -->
+          <section class="table-section">
+            <div class="table-header">
+              <h2>설문 응답 목록</h2>
+              <div class="table-actions">
+                <button id="refresh-surveys-btn" class="refresh-btn">
+                  <i class="fas fa-sync-alt"></i> 새로고침
+                </button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="survey-table">
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>학번</th>
+                    <th>MBTI</th>
+                    <th>관심주제</th>
+                    <th>소통스타일</th>
+                    <th>갈등대처방식</th>
+                    <th>선호역할</th>
+                    <th>선호팀분위기</th>
+                    <th>키워드</th>
+                    <th>매칭선호</th>
+                    <th>제출일시</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                <tbody id="survey-responses-body">
+                  <!-- 설문 응답 데이터가 여기에 동적으로 추가됩니다 -->
+                  <tr>
+                    <td colspan="12" class="loading-message">
+                      데이터를 불러오는 중...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination">
+              <button id="survey-prev-page" disabled>
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span id="survey-page-info">페이지 1 / 1</span>
+              <button id="survey-next-page" disabled>
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <!-- 확인 모달 -->
+    <div id="confirm-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>확인</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="confirm-message"></p>
+        </div>
+        <div class="modal-footer">
+          <button id="confirm-cancel" class="cancel-btn">취소</button>
+          <button id="confirm-ok" class="confirm-btn">확인</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <script src="AdminDashboard.js"></script>
+    <script src="AdminPage-surveys.js"></script>
+  </body>
+</html>
