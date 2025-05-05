@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 백엔드로 설문조사 데이터 전송하는 함수
   async function sendSurveyData() {
     try {
-      // 토큰 확인 (이미 페이지 로드 시 확인했지만 한 번 더 확인)
+      // 토큰 확인
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // 토큰 형식 일치
           },
           body: JSON.stringify(surveyData),
         }
@@ -128,27 +128,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // 응답이 성공적이지 않으면 에러 처리
       if (!response.ok) {
-        let errorMsg = "설문조사 제출에 실패했습니다.";
+        const errorText = await response.text();
+        console.error("서버 에러 응답:", errorText);
 
-        // JSON 응답이 있을 때만 처리
-        try {
-          const errorData = await response.json();
-          errorMsg = errorData.message || errorMsg;
-        } catch (e) {
-          console.error("JSON 파싱 오류:", e);
-          // JSON 파싱 실패 시에도 기본 오류 메시지를 사용
+        // HTTP 상태 코드에 따른 처리
+        if (response.status === 401) {
+          alert("인증이 만료되었습니다. 다시 로그인해주세요.");
+          localStorage.removeItem("token"); // 토큰 삭제
+          window.location.href = "../Login/Login.html";
+          return;
         }
 
-        throw new Error(errorMsg);
+        throw new Error("설문조사 제출에 실패했습니다.");
       }
 
       // 설문조사 제출 성공 처리
       alert("설문조사가 성공적으로 제출되었습니다.");
-      window.location.href = "../MyPage/MyPage.html"; // 마이페이지로 리다이렉트
+      window.location.href = "../MainPage/MainPage.html"; // 메인페이지로 리다이렉트
     } catch (error) {
       // 에러 메시지 출력
       errorMessage.textContent = error.message;
-      console.error("설문조사 제출 오류:", error);
+      console.error("에러 발생:", error);
 
       // 버튼 상태 복원
       const submitButton = document.querySelector('button[type="submit"]');
@@ -167,5 +167,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function clearError() {
     errorMessage.textContent = "";
+  }
+
+  // 취소 버튼 이벤트 리스너 (선택적)
+  const cancelButton = document.querySelector(".btn.cancel");
+  if (cancelButton) {
+    cancelButton.addEventListener("click", function () {
+      const confirmCancel = confirm(
+        "설문조사를 취소하시겠습니까? 입력한 내용은 저장되지 않습니다."
+      );
+      if (confirmCancel) {
+        window.location.href = "../MainPage/MainPage.html";
+      }
+    });
   }
 });
