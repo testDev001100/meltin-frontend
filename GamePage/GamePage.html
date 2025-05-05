@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="GamePage.css" />
+    <title>BINGO</title>
+  </head>
+  <body>
+    <div class="bingo-container">
+      <div id="bingo-board"></div>
+    </div>
+
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <p id="modal-question"></p>
+        <button onclick="closeModal()">확인</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden">빙고!</div>
+  </body>
+  <script src="GamePage.js"></script>
+</html>
