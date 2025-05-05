@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let isAutoRefreshEnabled = true;
   let currentConfirmCallback = null;
 
+  // 테스트용 토큰 설정
+  if (!localStorage.getItem("token")) {
+    localStorage.setItem("token", "test-token-12345");
+    localStorage.setItem("adminName", "테스트 관리자");
+    localStorage.setItem("adminToken", "admin-token-67890"); // 관리자 토큰 추가
+  }
+
   // DOM 요소
   const usersTableBody = document.getElementById("users-table-body");
   const nameFilter = document.getElementById("name-filter");
@@ -75,9 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
         case "surveys":
           sectionTitle.textContent = "설문 관리";
-          // 설문 데이터 로드
-          if (typeof loadSurveyResponses === "function") {
-            loadSurveyResponses();
+          // 설문 데이터 로드 - 여기서 window.loadSurveyResponses 사용
+          if (typeof window.loadSurveyResponses === "function") {
+            console.log("showSection에서 loadSurveyResponses 호출");
+            window.loadSurveyResponses();
+          } else {
+            console.error("loadSurveyResponses 함수를 찾을 수 없습니다.");
           }
           break;
       }
@@ -215,21 +225,21 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       showLoading();
 
+      // API 호출 대신 테스트 데이터 사용
+      // 실제 구현 시 아래 주석 해제하고 loadTestData() 호출 제거
+      /*
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
       }
 
-      const response = await fetch(
-        "http://localhost:3000/api/admin/waiting-users",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch("http://localhost:3000/api/admin/waiting-users", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
@@ -243,8 +253,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
       users = data;
-      filteredUsers = [...users];
+      */
 
+      // 테스트 데이터 로드
+      loadTestData();
+
+      filteredUsers = [...users];
       renderUsers();
       updateStats();
 
@@ -261,34 +275,33 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       showLoading();
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-      }
-
-      const response = await fetch(
-        `http://localhost:3000/api/admin/users/${userId}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status }),
-        }
+      // API 호출 대신 로컬 데이터 업데이트
+      const userIndex = users.findIndex(
+        (user) => user.id === Number.parseInt(userId)
       );
+      if (userIndex !== -1) {
+        users[userIndex].status = status;
 
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 403) {
-          alert("인증이 만료되었습니다. 다시 로그인해주세요.");
-          window.location.href = "login.html";
-          return;
+        // 필터링된 사용자 목록도 업데이트
+        const filteredIndex = filteredUsers.findIndex(
+          (user) => user.id === Number.parseInt(userId)
+        );
+        if (filteredIndex !== -1) {
+          filteredUsers[filteredIndex].status = status;
         }
-        throw new Error("사용자 상태 업데이트에 실패했습니다.");
-      }
 
-      // 성공적으로 업데이트 후 사용자 목록 새로고침
-      await fetchUsers();
+        renderUsers();
+        updateStats();
+
+        // 성공 메시지
+        alert(
+          `사용자 상태가 '${
+            status === "matched" ? "매칭됨" : "대기 중"
+          }'으로 업데이트되었습니다.`
+        );
+      } else {
+        throw new Error("사용자를 찾을 수 없습니다.");
+      }
 
       hideLoading();
     } catch (error) {
@@ -303,36 +316,29 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       showLoading();
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-      }
-
-      const response = await fetch(
-        "http://localhost:3000/api/admin/match-all-users",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+      // API 호출 대신 로컬 데이터 업데이트
+      let matchedCount = 0;
+      users.forEach((user) => {
+        if (user.status === "waiting") {
+          user.status = "matched";
+          matchedCount++;
         }
-      );
+      });
 
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 403) {
-          alert("인증이 만료되었습니다. 다시 로그인해주세요.");
-          window.location.href = "login.html";
-          return;
+      // 필터링된 사용자 목록도 업데이트
+      filteredUsers.forEach((user) => {
+        if (user.status === "waiting") {
+          user.status = "matched";
         }
-        throw new Error("사용자 일괄 매칭에 실패했습니다.");
-      }
+      });
+
+      renderUsers();
+      updateStats();
 
       // 성공 메시지
-      alert("모든 대기 중인 사용자가 성공적으로 매칭되었습니다.");
-
-      // 사용자 목록 새로고침
-      await fetchUsers();
+      alert(
+        `${matchedCount}명의 대기 중인 사용자가 성공적으로 매칭되었습니다.`
+      );
 
       hideLoading();
     } catch (error) {
@@ -346,10 +352,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderUsers() {
     if (filteredUsers.length === 0) {
       usersTableBody.innerHTML = `
-                  <tr>
-                      <td colspan="11" class="loading-message">표시할 사용자가 없습니다.</td>
-                  </tr>
-              `;
+                <tr>
+                    <td colspan="11" class="loading-message">표시할 사용자가 없습니다.</td>
+                </tr>
+            `;
       updatePagination();
       return;
     }
@@ -390,24 +396,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       row.innerHTML = `
-                  <td>${user.name}</td>
-                  <td>${user.username}</td>
-                  <td>${user.studentId}</td>
-                  <td>${user.mbti}</td>
-                  <td>${user.interest}</td>
-                  <td>${user.communicationStyle}</td>
-                  <td>${user.preferredRole}</td>
-                  <td>${user.selfKeywords}</td>
-                  <td>${user.matchingPreference}</td>
-                  <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                  <td class="action-buttons">
-                      <button class="approve-btn" data-user-id="${user.id}" ${
+                <td>${user.name}</td>
+                <td>${user.username}</td>
+                <td>${user.studentId}</td>
+                <td>${user.mbti}</td>
+                <td>${user.interest}</td>
+                <td>${user.communicationStyle}</td>
+                <td>${user.preferredRole}</td>
+                <td>${user.selfKeywords}</td>
+                <td>${user.matchingPreference}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td class="action-buttons">
+                    <button class="approve-btn" data-user-id="${user.id}" ${
         user.status === "matched" ? "disabled" : ""
       }>
-                          <i class="fas fa-check"></i> 매칭
-                      </button>
-                  </td>
-              `;
+                        <i class="fas fa-check"></i> 매칭
+                    </button>
+                </td>
+            `;
 
       usersTableBody.appendChild(row);
     });
@@ -463,22 +469,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "login.html";
   });
 
-  // 초기 데이터 로드
-  fetchUsers();
-
-  // 자동 새로고침 시작
-  if (isAutoRefreshEnabled) {
-    startAutoRefresh();
-  }
-
-  // 전역 함수로 노출
-  window.showLoadingIndicator = showLoading;
-  window.hideLoadingIndicator = hideLoading;
-  window.showConfirmModal = showConfirmModal;
-  window.showSection = showSection;
-
-  // 테스트 데이터 (API가 없을 경우 사용)
+  // 테스트 데이터 로드
   function loadTestData() {
+    console.log("테스트 데이터 로드 중...");
     users = [
       {
         id: 1,
@@ -520,6 +513,19 @@ document.addEventListener("DOMContentLoaded", () => {
         status: "matched",
       },
       {
+        id: 4,
+        username: "user4",
+        name: "최민준",
+        studentId: "20230004",
+        mbti: "ENTJ",
+        interest: "프로젝트 관리, 리더십",
+        communicationStyle: "직접적",
+        preferredRole: "PM",
+        selfKeywords: "체계적, 리더십",
+        matchingPreference: "다양한 역할",
+        status: "matched",
+      },
+      {
         id: 5,
         username: "user5",
         name: "정수빈",
@@ -537,14 +543,30 @@ document.addEventListener("DOMContentLoaded", () => {
     filteredUsers = [...users];
     renderUsers();
     updateStats();
+    console.log("테스트 데이터 로드 완료:", users.length, "명의 사용자");
   }
 
-  // API가 없는 경우 테스트 데이터 로드 (실제 구현 시 주석 처리)
-  // loadTestData();
+  // 초기 데이터 로드
+  fetchUsers();
 
-  let loadSurveyResponses;
-  let loadSurveys;
+  // 자동 새로고침 시작 (테스트 중에는 비활성화)
+  // if (isAutoRefreshEnabled) {
+  //   startAutoRefresh();
+  // }
+
+  // 전역 함수로 노출
+  window.showLoadingIndicator = showLoading;
+  window.hideLoadingIndicator = hideLoading;
+  window.showConfirmModal = showConfirmModal;
+  window.showSection = showSection;
 });
+
+// 설문 목록을 로드하는 함수 (가정)
+const loadSurveys = async () => {
+  console.log("loadSurveys 함수가 호출되었습니다.");
+  // 여기에 실제 설문 목록을 가져오는 로직을 구현해야 합니다.
+  // 예: API 호출을 통해 설문 목록을 가져오고, 해당 목록을 화면에 표시하는 등의 작업.
+};
 
 // 설문 종료 함수
 async function endSurvey(surveyId) {
@@ -631,5 +653,20 @@ async function startGame(surveyId) {
     console.error("게임 시작 오류:", error);
     hideLoadingIndicator();
     alert(`게임 시작 중 오류가 발생했습니다: ${error.message}`);
+  }
+}
+
+// 전역 스코프에서 함수 정의
+function showLoadingIndicator() {
+  const loadingOverlay = document.getElementById("loading-overlay");
+  if (loadingOverlay) {
+    loadingOverlay.classList.remove("hidden");
+  }
+}
+
+function hideLoadingIndicator() {
+  const loadingOverlay = document.getElementById("loading-overlay");
+  if (loadingOverlay) {
+    loadingOverlay.classList.add("hidden");
   }
 }

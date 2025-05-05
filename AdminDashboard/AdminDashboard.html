@@ -189,6 +189,7 @@
                   <option value="ISTP">ISTP</option>
                   <option value="ESFJ">ESFJ</option>
                   <option value="INTP">INTP</option>
+                  <option value="ENTJ">ENTJ</option>
                 </select>
               </div>
               <div class="filter-item">
@@ -307,9 +308,7 @@
                   </option>
                 </select>
               </div>
-              <button id="clear-survey-filters" class="clear-btn">
-                필터 초기화
-              </button>
+              <button id="apply-survey-filters" class="search-btn">검색</button>
             </div>
           </section>
 
@@ -389,7 +388,60 @@
       <div class="spinner"></div>
     </div>
 
+    <!-- 스크립트 로딩 순서 변경 -->
     <script src="AdminDashboard.js"></script>
+    <script>
+      // 스크립트 로딩 확인
+      console.log("AdminDashboard.js 로드됨");
+
+      // 테스트용 토큰 설정 - 실제 구현에서는 로그인 과정에서 설정됨
+      if (!localStorage.getItem("token")) {
+        localStorage.setItem("token", "test-token-12345");
+        localStorage.setItem("adminName", "테스트 관리자");
+        localStorage.setItem("adminToken", "admin-token-67890"); // 관리자 토큰 추가
+      }
+    </script>
     <script src="AdminPage-surveys.js"></script>
+    <script>
+      console.log("AdminPage-surveys.js 로드됨");
+
+      // 페이지 로드 완료 후 설문 데이터 로드 시도
+      window.addEventListener("load", function () {
+        console.log("페이지 완전히 로드됨");
+
+        // 사용자 데이터 로드 확인
+        console.log(
+          "사용자 데이터 확인:",
+          window.users ? window.users.length + "명" : "로드되지 않음"
+        );
+
+        // 설문 응답 데이터 로드 함수 확인
+        console.log(
+          "loadSurveyResponsesFunc 함수 확인:",
+          typeof window.loadSurveyResponsesFunc === "function"
+            ? "사용 가능"
+            : "사용 불가"
+        );
+
+        // 설문 섹션이 활성화되어 있는지 확인
+        const surveysSection = document.getElementById("surveys-section");
+        if (surveysSection && surveysSection.classList.contains("active")) {
+          console.log("설문 섹션이 활성화되어 있음, 데이터 로드 시도");
+          if (typeof window.loadSurveyResponsesFunc === "function") {
+            window.loadSurveyResponsesFunc();
+          } else {
+            console.error("loadSurveyResponsesFunc 함수를 찾을 수 없음");
+          }
+        }
+
+        // 수동으로 설문 데이터 로드 시도
+        setTimeout(function () {
+          console.log("수동으로 설문 데이터 로드 시도");
+          if (typeof window.loadSurveyResponsesFunc === "function") {
+            window.loadSurveyResponsesFunc();
+          }
+        }, 1000);
+      });
+    </script>
   </body>
 </html>
