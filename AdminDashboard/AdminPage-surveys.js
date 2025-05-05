@@ -5,7 +5,7 @@ let currentSurveyPage = 1;
 const responsesPerPage = 10;
 
 // 백엔드 API 기본 URL
-const API_BASE_URL = "http://<백엔드 IP 또는 도메인>/api";
+const API_BASE_URL = "http://localhost:8080/api";
 
 // 설문 응답 데이터 로드 함수
 async function loadSurveyResponses() {
