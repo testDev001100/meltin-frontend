@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const response = await fetch("http://192.168.123.100:8080/api/users/me", {
         method: "GET",
         headers: {
-          Authorization:`Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -92,6 +92,80 @@ document.addEventListener("DOMContentLoaded", async () => {
       localStorage.removeItem("token");
     }
   }
+  // UI 업데이트
+  function updateAuthUI() {
+    if (isLoggedIn) {
+      loginBtn.style.display = "none";
+      userArea.style.display = "flex";
+    } else {
+      loginBtn.style.display = "block";
+      userArea.style.display = "none";
+    }
+  }
+
+  // 로그아웃 처리
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    isLoggedIn = false;
+    updateAuthUI();
+  });
+
+  updateAuthUI();
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const userArea = document.getElementById("userArea");
+  const usernameSpan = document.getElementById("username");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const adminBtn = document.getElementById("adminBtn"); // 관리자 버튼
+  const token = localStorage.getItem("token");
+
+  // 기본적으로 로그인 상태로 판단하지 않음
+  let isLoggedIn = false;
+
+  // 관리자 권한 확인
+  if (token) {
+    try {
+      const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const user = await response.json();
+        isLoggedIn = true;
+        usernameSpan.textContent = `${user.name}님`;
+
+        // 관리자 권한 체크
+        if (user.role === "admin") {
+          // 관리자 버튼을 보여줍니다.
+          adminBtn.style.display = "inline-block";
+
+          // 관리자 페이지로 이동하는 기능
+          adminBtn.addEventListener("click", function () {
+            window.location.href = "../AdminDashboard/AdminDashboard.html"; // 관리자 페이지로 리디렉션
+          });
+        } else {
+          // 관리자가 아니면 버튼을 숨깁니다.
+          adminBtn.style.display = "none";
+        }
+
+        usernameSpan.addEventListener("click", () => {
+          window.location.href = "../MyPage/MyPage.html";
+        });
+      } else {
+        // 유효하지 않은 토큰
+        localStorage.removeItem("token");
+      }
+    } catch (error) {
+      console.error("유저 정보 요청 실패:", error);
+      localStorage.removeItem("token");
+    }
+  }
+
   // UI 업데이트
   function updateAuthUI() {
     if (isLoggedIn) {

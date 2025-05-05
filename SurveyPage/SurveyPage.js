@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const token = localStorage.getItem("token");
   if (!token) {
     alert("설문조사에 참여하려면 로그인이 필요합니다.");
-    window.location.href = "../Login/Login.html"; // 로그인 페이지로 즉시 리다이렉트
+    window.location.href = "../LogInPage/LogInPage.html"; // 로그인 페이지로 즉시 리다이렉트
     return;
   }
 
