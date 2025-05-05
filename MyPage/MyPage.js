@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  const deleteBtn = this.document.getElementById("delete-account-btn");
+  const deleteBtn = document.getElementById("delete-account-btn");
   if (deleteBtn) {
     deleteBtn.addEventListener("click", async function () {
       if (!confirm("정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
 
       try {
-        const response = await fetch("http://192.168.123.100:8080/api/users", {
+        const response = await fetch("http://192.168.123.100:8080/api/users/me", {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!response.ok) {
           let errMsg = "회원 탈퇴에 실패했습니다.";
           try {
-            const contentType = response.header.get("Content-Type");
+            const contentType = response.headers.get("Content-Type");
             if (contentType && contentType.includes("application/json")) {
               const data = await response.json();
               errMsg = data.message || errMsg;
