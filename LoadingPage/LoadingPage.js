@@ -18,7 +18,11 @@ setInterval(async () => {
     // ✅ 팀 번호가 존재하면 매칭 완료 처리
     if (data.teamNumber !== null && data.teamNumber !== undefined) {
       const loadingText = document.getElementById("loading-text");
+      const dotContainer = document.querySelector(".dot-container");
       const resultContainer = document.getElementById("result-container");
+
+      if (loadingText) loadingText.classList.add("hidden");
+      if (dotContainer) dotContainer.classList.add("hidden");
 
       if (resultContainer) {
         resultContainer.classList.remove("hidden");
