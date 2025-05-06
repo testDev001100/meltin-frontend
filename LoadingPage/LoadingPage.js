@@ -30,5 +30,5 @@ setInterval(async () => {
 }, 3000);
 
 function goToResult() {
-  window.location.href = "/TeamResultPage/TeamResultPage.html";
+  window.location.href = "../TeamResultPage/TeamResultPage.html";
 }
