@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         localStorage.removeItem("token");
         window.location.href = "../LogInPage/LogInPage.html";
       } else {
-        alert("사용자 정보를 확인할 수 없습니다.");
+        alert("관리자 권한이 없습니다.");
       }
     } catch (err) {
       console.error("❌ 관리자 확인 실패:", err);

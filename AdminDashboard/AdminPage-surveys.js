@@ -5,7 +5,7 @@ let currentSurveyPage = 1;
 const responsesPerPage = 10;
 
 // 백엔드 API 기본 URL
-const API_BASE_URL = "http://192.168.123.100:8080/api";
+const API_BASE_URL = "https://meltin.shop/api";
 
 // 설문 응답 데이터 로드 함수
 async function loadSurveyResponses() {
@@ -56,7 +56,9 @@ async function loadSurveyResponses() {
     if (typeof window.hideLoadingIndicator === "function") {
       window.hideLoadingIndicator();
     }
-    alert(`설문 응답 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`);
+    alert(
+      `설문 응답 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`
+    );
     return false;
   }
 }
@@ -64,14 +66,18 @@ async function loadSurveyResponses() {
 // 이하의 함수들은 원래대로 유지 (렌더링, 필터, 페이징 등)
 function updateTotalSurveysCount() {
   const totalSurveysCount = surveyResponses.length;
-  document.getElementById("total-surveys-count").textContent = `${totalSurveysCount}개`;
+  document.getElementById(
+    "total-surveys-count"
+  ).textContent = `${totalSurveysCount}개`;
 }
 
 function renderSurveyResponses() {
   const surveyResponsesBody = document.getElementById("survey-responses-body");
 
   if (!surveyResponsesBody) {
-    console.error("설문 응답 테이블을 찾을 수 없습니다: #survey-responses-body");
+    console.error(
+      "설문 응답 테이블을 찾을 수 없습니다: #survey-responses-body"
+    );
     return;
   }
 
@@ -86,18 +92,32 @@ function renderSurveyResponses() {
   }
 
   const startIndex = (currentSurveyPage - 1) * responsesPerPage;
-  const endIndex = Math.min(startIndex + responsesPerPage, filteredSurveyResponses.length);
-  const responsesToDisplay = filteredSurveyResponses.slice(startIndex, endIndex);
+  const endIndex = Math.min(
+    startIndex + responsesPerPage,
+    filteredSurveyResponses.length
+  );
+  const responsesToDisplay = filteredSurveyResponses.slice(
+    startIndex,
+    endIndex
+  );
 
   surveyResponsesBody.innerHTML = "";
 
   responsesToDisplay.forEach((response) => {
     const row = document.createElement("tr");
 
-    let statusClass = response.status === "matched" ? "status-matched" :
-                      response.status === "pending" ? "status-pending" : "status-waiting";
-    let statusText = response.status === "matched" ? "매칭됨" :
-                     response.status === "pending" ? "보류" : "대기 중";
+    let statusClass =
+      response.status === "matched"
+        ? "status-matched"
+        : response.status === "pending"
+        ? "status-pending"
+        : "status-waiting";
+    let statusText =
+      response.status === "matched"
+        ? "매칭됨"
+        : response.status === "pending"
+        ? "보류"
+        : "대기 중";
 
     row.innerHTML = `
         <td>${response.name}</td>
@@ -120,23 +140,30 @@ function renderSurveyResponses() {
 }
 
 function updateSurveyPagination() {
-  const totalPages = Math.ceil(filteredSurveyResponses.length / responsesPerPage);
+  const totalPages = Math.ceil(
+    filteredSurveyResponses.length / responsesPerPage
+  );
   const pageInfoElement = document.getElementById("survey-page-info");
   const prevPageBtn = document.getElementById("survey-prev-page");
   const nextPageBtn = document.getElementById("survey-next-page");
 
   if (pageInfoElement) {
-    pageInfoElement.textContent = `페이지 ${currentSurveyPage} / ${totalPages || 1}`;
+    pageInfoElement.textContent = `페이지 ${currentSurveyPage} / ${
+      totalPages || 1
+    }`;
   }
 
   if (prevPageBtn) prevPageBtn.disabled = currentSurveyPage <= 1;
-  if (nextPageBtn) nextPageBtn.disabled = currentSurveyPage >= totalPages || totalPages === 0;
+  if (nextPageBtn)
+    nextPageBtn.disabled = currentSurveyPage >= totalPages || totalPages === 0;
 }
 
 function applySurveyFilters() {
   const mbtiValue = document.getElementById("filter-mbti").value;
   const interestValue = document.getElementById("filter-interest").value;
-  const communicationValue = document.getElementById("filter-communication").value;
+  const communicationValue = document.getElementById(
+    "filter-communication"
+  ).value;
   const conflictValue = document.getElementById("filter-conflict").value;
   const roleValue = document.getElementById("filter-role").value;
   const teamMoodValue = document.getElementById("filter-team-mood").value;
@@ -147,7 +174,8 @@ function applySurveyFilters() {
     return (
       (mbtiValue === "" || response.mbti === mbtiValue) &&
       (interestValue === "" || response.interest === interestValue) &&
-      (communicationValue === "" || response.communicationStyle === communicationValue) &&
+      (communicationValue === "" ||
+        response.communicationStyle === communicationValue) &&
       (conflictValue === "" || response.conflictResponse === conflictValue) &&
       (roleValue === "" || response.preferredRole === roleValue) &&
       (teamMoodValue === "" || response.preferredTeamMood === teamMoodValue) &&
@@ -163,7 +191,8 @@ function applySurveyFilters() {
 // 설문 패널 초기화 및 전역 등록
 function initializeSurveyPanel() {
   const applyFiltersBtn = document.getElementById("apply-survey-filters");
-  if (applyFiltersBtn) applyFiltersBtn.addEventListener("click", applySurveyFilters);
+  if (applyFiltersBtn)
+    applyFiltersBtn.addEventListener("click", applySurveyFilters);
 
   document.getElementById("survey-prev-page")?.addEventListener("click", () => {
     if (currentSurveyPage > 1) {
@@ -173,21 +202,25 @@ function initializeSurveyPanel() {
   });
 
   document.getElementById("survey-next-page")?.addEventListener("click", () => {
-    const totalPages = Math.ceil(filteredSurveyResponses.length / responsesPerPage);
+    const totalPages = Math.ceil(
+      filteredSurveyResponses.length / responsesPerPage
+    );
     if (currentSurveyPage < totalPages) {
       currentSurveyPage++;
       renderSurveyResponses();
     }
   });
 
-  document.getElementById("refresh-surveys-btn")?.addEventListener("click", () => {
-    if (typeof window.showLoadingIndicator === "function") {
-      window.showLoadingIndicator();
-    }
-    setTimeout(() => {
-      loadSurveyResponses();
-    }, 500);
-  });
+  document
+    .getElementById("refresh-surveys-btn")
+    ?.addEventListener("click", () => {
+      if (typeof window.showLoadingIndicator === "function") {
+        window.showLoadingIndicator();
+      }
+      setTimeout(() => {
+        loadSurveyResponses();
+      }, 500);
+    });
 }
 
 // DOM 로드 시 실행
