@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 로고 클릭 → 메인 페이지 이동
   logo?.addEventListener("click", () => {
-    window.location.href = "MainPage.html";
+    window.location.href = "/MainPage/MainPage.html";
   });
 
   // 로그인 버튼 클릭
