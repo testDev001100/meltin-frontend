@@ -12,7 +12,7 @@ document
     };
 
     try {
-      const response = await fetch("http://3.106.197.28:8080/api/users/login", {
+      const response = await fetch("https://meltin.shop/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
