@@ -12,16 +12,13 @@ document
     };
 
     try {
-      const response = await fetch(
-        "http://192.168.123.100:8080/api/users/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://3.106.197.28:8080/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       if (!response.ok) {
         const errorText = await response.text();
         console.error("서버 에러 응답:", errorText);

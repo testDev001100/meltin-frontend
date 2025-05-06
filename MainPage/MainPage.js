@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-      const response = await fetch("http://192.168.123.100:8080/api/admin/me", {
+      const response = await fetch("http://3.106.197.28:8080/api/admin/me", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 사용자 정보 불러오기
   if (token) {
     try {
-      const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+      const response = await fetch("http://3.106.197.28:8080/api/users/me", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
