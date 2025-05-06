@@ -1,165 +1,182 @@
 document.addEventListener("DOMContentLoaded", () => {
-  let users = []
-  let filteredUsers = []
-  let currentPage = 1
-  const usersPerPage = 10
-  let autoRefreshInterval
-  let isAutoRefreshEnabled = true
-  let currentConfirmCallback = null
+  let users = [];
+  let filteredUsers = [];
+  let currentPage = 1;
+  const usersPerPage = 10;
+  let autoRefreshInterval;
+  let isAutoRefreshEnabled = true;
+  let currentConfirmCallback = null;
 
-  const API_BASE_URL = "http://192.168.123.100:8080/api"
+  const API_BASE_URL = "http://192.168.123.100:8080/api";
 
-  const usersTableBody = document.getElementById("users-table-body")
-  const nameFilter = document.getElementById("name-filter")
-  const studentIdFilter = document.getElementById("student-id-filter")
-  const clearFiltersBtn = document.getElementById("clear-filters")
-  const refreshBtn = document.getElementById("refresh-btn")
-  const toggleRefreshBtn = document.getElementById("toggle-refresh")
-  const autoRefreshStatus = document.getElementById("auto-refresh-status")
-  const waitingCountElement = document.getElementById("waiting-count")
-  const matchedCountElement = document.getElementById("matched-count")
-  const matchAllBtn = document.getElementById("match-all-btn")
-  const prevPageBtn = document.getElementById("prev-page")
-  const nextPageBtn = document.getElementById("next-page")
-  const pageInfoElement = document.getElementById("page-info")
-  const adminNameElement = document.getElementById("admin-name")
-  const menuToggle = document.querySelector(".menu-toggle")
-  const sidebar = document.querySelector(".sidebar")
-  const loadingOverlay = document.getElementById("loading-overlay")
-  const confirmModal = document.getElementById("confirm-modal")
-  const confirmMessage = document.getElementById("confirm-message")
-  const confirmOkBtn = document.getElementById("confirm-ok")
-  const confirmCancelBtn = document.getElementById("confirm-cancel")
-  const closeModalBtn = document.querySelector(".close-modal")
-  const sectionTitle = document.getElementById("section-title")
+  const usersTableBody = document.getElementById("users-table-body");
+  const nameFilter = document.getElementById("name-filter");
+  const studentIdFilter = document.getElementById("student-id-filter");
+  const clearFiltersBtn = document.getElementById("clear-filters");
+  const refreshBtn = document.getElementById("refresh-btn");
+  const toggleRefreshBtn = document.getElementById("toggle-refresh");
+  const autoRefreshStatus = document.getElementById("auto-refresh-status");
+  const waitingCountElement = document.getElementById("waiting-count");
+  const matchedCountElement = document.getElementById("matched-count");
+  const matchAllBtn = document.getElementById("match-all-btn");
+  const prevPageBtn = document.getElementById("prev-page");
+  const nextPageBtn = document.getElementById("next-page");
+  const pageInfoElement = document.getElementById("page-info");
+  const adminNameElement = document.getElementById("admin-name");
+  const menuToggle = document.querySelector(".menu-toggle");
+  const sidebar = document.querySelector(".sidebar");
+  const loadingOverlay = document.getElementById("loading-overlay");
+  const confirmModal = document.getElementById("confirm-modal");
+  const confirmMessage = document.getElementById("confirm-message");
+  const confirmOkBtn = document.getElementById("confirm-ok");
+  const confirmCancelBtn = document.getElementById("confirm-cancel");
+  const closeModalBtn = document.querySelector(".close-modal");
+  const sectionTitle = document.getElementById("section-title");
 
-  const adminName = localStorage.getItem("adminName") || "관리자"
-  adminNameElement.textContent = adminName
+  const adminName = localStorage.getItem("adminName") || "관리자";
+  adminNameElement.textContent = adminName;
 
   menuToggle.addEventListener("click", () => {
-    sidebar.classList.toggle("active")
-  })
+    sidebar.classList.toggle("active");
+  });
 
   document.querySelectorAll(".sidebar-nav li").forEach((item) => {
     item.addEventListener("click", function () {
-      const sectionId = this.getAttribute("data-section")
-      showSection(sectionId)
-      document.querySelectorAll(".sidebar-nav li").forEach((nav) => nav.classList.remove("active"))
-      this.classList.add("active")
-    })
-  })
+      const sectionId = this.getAttribute("data-section");
+      showSection(sectionId);
+      document
+        .querySelectorAll(".sidebar-nav li")
+        .forEach((nav) => nav.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
 
   function showSection(sectionId) {
     document.querySelectorAll(".content-section").forEach((section) => {
-      section.classList.remove("active")
-    })
+      section.classList.remove("active");
+    });
 
-    const targetSection = document.getElementById(`${sectionId}-section`)
+    const targetSection = document.getElementById(`${sectionId}-section`);
     if (targetSection) {
-      targetSection.classList.add("active")
-      sectionTitle.textContent = sectionId === "users" ? "사용자 관리" : "설문 관리"
-      if (sectionId === "surveys" && typeof window.loadSurveyResponses === "function") {
-        window.loadSurveyResponses()
+      targetSection.classList.add("active");
+      sectionTitle.textContent =
+        sectionId === "users" ? "사용자 관리" : "설문 관리";
+      if (
+        sectionId === "surveys" &&
+        typeof window.loadSurveyResponses === "function"
+      ) {
+        window.loadSurveyResponses();
       }
     }
   }
 
-  nameFilter.addEventListener("input", applyFilters)
-  studentIdFilter.addEventListener("input", applyFilters)
+  nameFilter.addEventListener("input", applyFilters);
+  studentIdFilter.addEventListener("input", applyFilters);
 
   clearFiltersBtn.addEventListener("click", () => {
-    nameFilter.value = ""
-    studentIdFilter.value = ""
-    applyFilters()
-  })
+    nameFilter.value = "";
+    studentIdFilter.value = "";
+    applyFilters();
+  });
 
-  refreshBtn.addEventListener("click", () => fetchUsers())
+  refreshBtn.addEventListener("click", () => fetchUsers());
 
   toggleRefreshBtn.addEventListener("click", () => {
-    isAutoRefreshEnabled = !isAutoRefreshEnabled
-    toggleRefreshBtn.innerHTML = `<i class="fas fa-toggle-${isAutoRefreshEnabled ? "on" : "off"}"></i>`
-    autoRefreshStatus.textContent = `자동 새로고침: ${isAutoRefreshEnabled ? "켜짐" : "꺼짐"}`
-    isAutoRefreshEnabled ? startAutoRefresh() : stopAutoRefresh()
-  })
+    isAutoRefreshEnabled = !isAutoRefreshEnabled;
+    toggleRefreshBtn.innerHTML = `<i class="fas fa-toggle-${
+      isAutoRefreshEnabled ? "on" : "off"
+    }"></i>`;
+    autoRefreshStatus.textContent = `자동 새로고침: ${
+      isAutoRefreshEnabled ? "켜짐" : "꺼짐"
+    }`;
+    isAutoRefreshEnabled ? startAutoRefresh() : stopAutoRefresh();
+  });
 
   matchAllBtn.addEventListener("click", () => {
-    const waitingCount = users.filter((user) => user.status === "waiting").length
+    const waitingCount = users.filter(
+      (user) => user.status === "waiting"
+    ).length;
     if (waitingCount === 0) {
-      alert("매칭할 대기 중인 사용자가 없습니다.")
-      return
+      alert("매칭할 대기 중인 사용자가 없습니다.");
+      return;
     }
-    showConfirmModal(`대기 중인 ${waitingCount}명의 사용자를 모두 매칭하시겠습니까?`, () => {
-      matchAllUsers()
-    })
-  })
+    showConfirmModal(
+      `대기 중인 ${waitingCount}명의 사용자를 모두 매칭하시겠습니까?`,
+      () => {
+        matchAllUsers();
+      }
+    );
+  });
 
   prevPageBtn.addEventListener("click", () => {
     if (currentPage > 1) {
-      currentPage--
-      renderUsers()
+      currentPage--;
+      renderUsers();
     }
-  })
+  });
 
   nextPageBtn.addEventListener("click", () => {
-    const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
     if (currentPage < totalPages) {
-      currentPage++
-      renderUsers()
+      currentPage++;
+      renderUsers();
     }
-  })
+  });
 
   confirmOkBtn.addEventListener("click", () => {
     if (currentConfirmCallback) {
-      currentConfirmCallback()
-      currentConfirmCallback = null
+      currentConfirmCallback();
+      currentConfirmCallback = null;
     }
-    hideConfirmModal()
-  })
+    hideConfirmModal();
+  });
 
-  confirmCancelBtn.addEventListener("click", hideConfirmModal)
-  closeModalBtn.addEventListener("click", hideConfirmModal)
+  confirmCancelBtn.addEventListener("click", hideConfirmModal);
+  closeModalBtn.addEventListener("click", hideConfirmModal);
 
   function showConfirmModal(message, callback) {
-    confirmMessage.textContent = message
-    currentConfirmCallback = callback
-    confirmModal.classList.remove("hidden")
+    confirmMessage.textContent = message;
+    currentConfirmCallback = callback;
+    confirmModal.classList.remove("hidden");
   }
 
   function hideConfirmModal() {
-    confirmModal.classList.add("hidden")
+    confirmModal.classList.add("hidden");
   }
 
   function startAutoRefresh() {
-    if (autoRefreshInterval) clearInterval(autoRefreshInterval)
-    autoRefreshInterval = setInterval(fetchUsers, 5000)
+    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+    autoRefreshInterval = setInterval(fetchUsers, 5000);
   }
 
   function stopAutoRefresh() {
     if (autoRefreshInterval) {
-      clearInterval(autoRefreshInterval)
-      autoRefreshInterval = null
+      clearInterval(autoRefreshInterval);
+      autoRefreshInterval = null;
     }
   }
 
   function applyFilters() {
-    const nameValue = nameFilter.value.toLowerCase()
-    const studentIdValue = studentIdFilter.value.toLowerCase()
+    const nameValue = nameFilter.value.toLowerCase();
+    const studentIdValue = studentIdFilter.value.toLowerCase();
 
     filteredUsers = users.filter((user) => {
-      return user.name.toLowerCase().includes(nameValue) &&
-             user.studentId.toLowerCase().includes(studentIdValue)
-    })
+      return (
+        user.name.toLowerCase().includes(nameValue) &&
+        user.studentId.toLowerCase().includes(studentIdValue)
+      );
+    });
 
-    currentPage = 1
-    renderUsers()
-    updateStats()
+    currentPage = 1;
+    renderUsers();
+    updateStats();
   }
 
   async function fetchUsers() {
     try {
-      showLoading()
-      const token = localStorage.getItem("token")
-      if (!token) throw new Error("인증 토큰이 없습니다.")
+      showLoading();
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("인증 토큰이 없습니다.");
 
       const response = await fetch(`${API_BASE_URL}/admin/users`, {
         method: "GET",
@@ -167,14 +184,14 @@ document.addEventListener("DOMContentLoaded", () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      })
+      });
 
       if (!response.ok) {
-        handleAuthFailure(response.status)
-        throw new Error("사용자 데이터를 가져오는 데 실패했습니다.")
+        handleAuthFailure(response.status);
+        throw new Error("사용자 데이터를 가져오는 데 실패했습니다.");
       }
 
-      const result = await response.json()
+      const result = await response.json();
       users = result.users.map((u, idx) => ({
         id: idx, // 백엔드에 id 없으면 임의 부여
         name: u.name,
@@ -186,24 +203,24 @@ document.addEventListener("DOMContentLoaded", () => {
         preferredRole: u.preferredRole || "-",
         selfKeywords: u.selfKeywords || "-",
         matchingPreference: u.matchingPreference || "-",
-        status: u.teamNumber == null ? "waiting" : "matched"
-      }))
-      filteredUsers = [...users]
-      renderUsers()
-      updateStats()
-      hideLoading()
+        status: u.teamNumber == null ? "waiting" : "matched",
+      }));
+      filteredUsers = [...users];
+      renderUsers();
+      updateStats();
+      hideLoading();
     } catch (error) {
-      console.error("Error fetching users:", error)
-      alert(error.message)
-      hideLoading()
+      console.error("Error fetching users:", error);
+      alert(error.message);
+      hideLoading();
     }
   }
 
   async function matchAllUsers() {
     try {
-      showLoading()
-      const token = localStorage.getItem("token")
-      if (!token) throw new Error("인증 토큰이 없습니다.")
+      showLoading();
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("인증 토큰이 없습니다.");
 
       const response = await fetch(`${API_BASE_URL}/admin/match`, {
         method: "POST",
@@ -211,20 +228,20 @@ document.addEventListener("DOMContentLoaded", () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      })
+      });
 
       if (!response.ok) {
-        handleAuthFailure(response.status)
-        throw new Error("사용자 매칭 실패")
+        handleAuthFailure(response.status);
+        throw new Error("사용자 매칭 실패");
       }
 
-      alert("모든 대기 사용자가 매칭되었습니다.")
-      await fetchUsers()
-      hideLoading()
+      alert("모든 대기 사용자가 매칭되었습니다.");
+      await fetchUsers();
+      hideLoading();
     } catch (error) {
-      console.error("Error matching users:", error)
-      alert(error.message)
-      hideLoading()
+      console.error("Error matching users:", error);
+      alert(error.message);
+      hideLoading();
     }
   }
 
@@ -232,22 +249,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (filteredUsers.length === 0) {
       usersTableBody.innerHTML = `
         <tr><td colspan="11" class="loading-message">표시할 사용자가 없습니다.</td></tr>
-      `
-      updatePagination()
-      return
+      `;
+      updatePagination();
+      return;
     }
 
-    const startIndex = (currentPage - 1) * usersPerPage
-    const endIndex = Math.min(startIndex + usersPerPage, filteredUsers.length)
-    const usersToDisplay = filteredUsers.slice(startIndex, endIndex)
+    const startIndex = (currentPage - 1) * usersPerPage;
+    const endIndex = Math.min(startIndex + usersPerPage, filteredUsers.length);
+    const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
 
-    usersTableBody.innerHTML = ""
+    usersTableBody.innerHTML = "";
 
     usersToDisplay.forEach((user) => {
-      const statusClass = user.status === "matched" ? "status-matched" : "status-waiting"
-      const statusText = user.status === "matched" ? "매칭됨" : "대기 중"
+      const statusClass =
+        user.status === "matched" ? "status-matched" : "status-waiting";
+      const statusText = user.status === "matched" ? "매칭됨" : "대기 중";
 
-      const row = document.createElement("tr")
+      const row = document.createElement("tr");
       row.innerHTML = `
         <td>${user.name}</td>
         <td>${user.username}</td>
@@ -260,57 +278,63 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${user.matchingPreference}</td>
         <td><span class="status-badge ${statusClass}">${statusText}</span></td>
         <td class="action-buttons">
-          <button class="approve-btn" data-user-id="${user.id}" ${user.status === "matched" ? "disabled" : ""}>
+          <button class="approve-btn" data-user-id="${user.id}" ${
+        user.status === "matched" ? "disabled" : ""
+      }>
             <i class="fas fa-check"></i> 매칭
           </button>
         </td>
-      `
-      usersTableBody.appendChild(row)
-    })
+      `;
+      usersTableBody.appendChild(row);
+    });
 
-    updatePagination()
+    updatePagination();
   }
 
   function updatePagination() {
-    const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
-    pageInfoElement.textContent = `페이지 ${currentPage} / ${totalPages || 1}`
-    prevPageBtn.disabled = currentPage <= 1
-    nextPageBtn.disabled = currentPage >= totalPages || totalPages === 0
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+    pageInfoElement.textContent = `페이지 ${currentPage} / ${totalPages || 1}`;
+    prevPageBtn.disabled = currentPage <= 1;
+    nextPageBtn.disabled = currentPage >= totalPages || totalPages === 0;
   }
 
   function updateStats() {
-    const waitingCount = users.filter((user) => user.status === "waiting").length
-    const matchedCount = users.filter((user) => user.status === "matched").length
-    waitingCountElement.textContent = `${waitingCount}명`
-    matchedCountElement.textContent = `${matchedCount}명`
+    const waitingCount = users.filter(
+      (user) => user.status === "waiting"
+    ).length;
+    const matchedCount = users.filter(
+      (user) => user.status === "matched"
+    ).length;
+    waitingCountElement.textContent = `${waitingCount}명`;
+    matchedCountElement.textContent = `${matchedCount}명`;
   }
 
   function showLoading() {
-    loadingOverlay.classList.remove("hidden")
+    loadingOverlay.classList.remove("hidden");
   }
 
   function hideLoading() {
-    loadingOverlay.classList.add("hidden")
+    loadingOverlay.classList.add("hidden");
   }
 
   function handleAuthFailure(status) {
     if (status === 401 || status === 403) {
-      alert("인증이 만료되었습니다. 다시 로그인해주세요.")
-      localStorage.clear()
-      window.location.href = "login.html"
+      alert("인증이 만료되었습니다. 다시 로그인해주세요.");
+      localStorage.clear();
+      window.location.href = "../LogInPage/LogInPage.html";
     }
   }
 
   document.getElementById("logout-btn").addEventListener("click", () => {
-    localStorage.clear()
-    window.location.href = "login.html"
-  })
+    localStorage.clear();
+    window.location.href = "../LogInPage/LogInPage.html";
+  });
 
-  fetchUsers()
-  if (isAutoRefreshEnabled) startAutoRefresh()
+  fetchUsers();
+  if (isAutoRefreshEnabled) startAutoRefresh();
 
-  window.showLoadingIndicator = showLoading
-  window.hideLoadingIndicator = hideLoading
-  window.showConfirmModal = showConfirmModal
-  window.showSection = showSection
-})
+  window.showLoadingIndicator = showLoading;
+  window.hideLoadingIndicator = hideLoading;
+  window.showConfirmModal = showConfirmModal;
+  window.showSection = showSection;
+});
