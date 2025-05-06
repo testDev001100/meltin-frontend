@@ -132,3 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   updateAuthUI();
 });
+
+document.getElementById("scroll-btn").addEventListener("click", () => {
+  document.getElementById("features").scrollIntoView({ behavior: "smooth" });
+});

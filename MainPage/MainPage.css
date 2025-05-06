@@ -413,3 +413,36 @@ footer {
   background-color: #f9f9f9;
   text-align: center;
 }
+
+#scroll-btn {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  animation: bounce 2s infinite, fadeOnScroll 2s infinite;
+}
+
+/* 화살표 튀는 애니메이션 */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+/* 화살표가 위로 올라갈 때 사라지고 내려갈 때 다시 나타나는 애니메이션 */
+@keyframes fadeOnScroll {
+  0%,
+  100% {
+    opacity: 1; /* 아래로 내려올 때는 다시 보이게 */
+  }
+  50% {
+    opacity: 0; /* 위로 올라갈 때는 사라짐 */
+  }
+}
