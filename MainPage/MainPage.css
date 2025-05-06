@@ -234,6 +234,13 @@ img {
     font-size: 25px;
     margin-bottom: 60px;
   }
+
+  #logoutBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    width: auto; /* 기본 크기로 돌아감 */
+    border-radius: 5px;
+  }
 }
 /* 모바일 버전 */
 @media screen and (max-width: 767px) {
@@ -288,6 +295,13 @@ img {
   .feature p {
     font-size: 20px;
     margin-bottom: 60px;
+  }
+
+  #logoutBtn {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: 100%; /* 화면 너비에 맞게 버튼 확장 */
+    border-radius: 8px; /* 둥근 모서리 더 강조 */
   }
 }
 
