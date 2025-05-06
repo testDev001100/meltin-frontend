@@ -8,6 +8,11 @@ document
     const studentId = document.getElementById("studentId").value;
     const name = document.getElementById("name").value;
 
+    localStorage.setItem(
+      "studentId",
+      document.getElementById("studentId").value
+    );
+
     const data = {
       username,
       password,
