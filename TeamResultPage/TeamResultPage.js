@@ -3,14 +3,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const myStudentId = localStorage.getItem("studentId");
 
   try {
-    const response = await fetch(
-      "http://192.168.123.100:8080/api/matching/me",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch("https://meltin.shop/api/matching/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) throw new Error("팀 정보를 불러올 수 없습니다.");
 

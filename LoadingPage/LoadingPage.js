@@ -3,7 +3,7 @@ setInterval(async () => {
   if (!token) return;
 
   try {
-    const res = await fetch("http://192.168.123.100:8080/api/matching/me", {
+    const res = await fetch("https://meltin.shop/api/matching/me", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

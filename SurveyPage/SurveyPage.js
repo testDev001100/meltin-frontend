@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
         matchingPreference: matchingPreferenceSelect.value,
       };
 
-      const response = await fetch("http://192.168.123.100:8080/api/survey", {
+      const response = await fetch("https://meltin.shop/api/survey", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

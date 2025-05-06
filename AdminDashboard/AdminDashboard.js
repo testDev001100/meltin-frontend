@@ -42,7 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     item.addEventListener("click", function () {
       const sectionId = this.getAttribute("data-section");
       showSection(sectionId);
-      document.querySelectorAll(".sidebar-nav li").forEach((nav) => nav.classList.remove("active"));
+      document
+        .querySelectorAll(".sidebar-nav li")
+        .forEach((nav) => nav.classList.remove("active"));
       this.classList.add("active");
     });
   });
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function checkAdminRole() {
     const token = localStorage.getItem("token");
     if (!token) return redirectToLogin();
-    const res = await fetch("http://192.168.123.100:8080/api/admin/me", {
+    const res = await fetch("https://meltin.shop/api/admin/me", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -66,12 +68,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function showSection(sectionId) {
-    document.querySelectorAll(".content-section").forEach((section) => section.classList.remove("active"));
+    document
+      .querySelectorAll(".content-section")
+      .forEach((section) => section.classList.remove("active"));
     const targetSection = document.getElementById(`${sectionId}-section`);
     if (targetSection) {
       targetSection.classList.add("active");
-      sectionTitle.textContent = sectionId === "users" ? "사용자 관리" : "설문 관리";
-      if (sectionId === "surveys" && typeof window.loadSurveyResponses === "function") {
+      sectionTitle.textContent =
+        sectionId === "users" ? "사용자 관리" : "설문 관리";
+      if (
+        sectionId === "surveys" &&
+        typeof window.loadSurveyResponses === "function"
+      ) {
         window.loadSurveyResponses();
       }
     }
@@ -90,15 +98,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   toggleRefreshBtn.addEventListener("click", () => {
     isAutoRefreshEnabled = !isAutoRefreshEnabled;
-    toggleRefreshBtn.innerHTML = `<i class="fas fa-toggle-${isAutoRefreshEnabled ? "on" : "off"}"></i>`;
-    autoRefreshStatus.textContent = `자동 새로고침: ${isAutoRefreshEnabled ? "켜짐" : "꺼짐"}`;
+    toggleRefreshBtn.innerHTML = `<i class="fas fa-toggle-${
+      isAutoRefreshEnabled ? "on" : "off"
+    }"></i>`;
+    autoRefreshStatus.textContent = `자동 새로고침: ${
+      isAutoRefreshEnabled ? "켜짐" : "꺼짐"
+    }`;
     isAutoRefreshEnabled ? startAutoRefresh() : stopAutoRefresh();
   });
 
   matchAllBtn.addEventListener("click", () => {
-    const waitingCount = users.filter((user) => user.status === "waiting").length;
+    const waitingCount = users.filter(
+      (user) => user.status === "waiting"
+    ).length;
     if (waitingCount === 0) return alert("매칭할 대기 중인 사용자가 없습니다.");
-    showConfirmModal(`대기 중인 ${waitingCount}명의 사용자를 모두 매칭하시겠습니까?`, matchAllUsers);
+    showConfirmModal(
+      `대기 중인 ${waitingCount}명의 사용자를 모두 매칭하시겠습니까?`,
+      matchAllUsers
+    );
   });
 
   prevPageBtn.addEventListener("click", () => {
@@ -144,7 +161,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const nameValue = nameFilter.value.toLowerCase();
     const studentIdValue = studentIdFilter.value.toLowerCase();
     filteredUsers = users.filter(
-      (user) => user.name.toLowerCase().includes(nameValue) && user.studentId.toLowerCase().includes(studentIdValue)
+      (user) =>
+        user.name.toLowerCase().includes(nameValue) &&
+        user.studentId.toLowerCase().includes(studentIdValue)
     );
     currentPage = 1;
     renderUsers();
@@ -157,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("인증 토큰이 없습니다.");
 
-      const response = await fetch("http://192.168.123.100:8080/api/admin/users", {
+      const response = await fetch("https://meltin.shop/api/admin/users", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -182,7 +201,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         preferredRole: u.preferredRole || "-",
         selfKeywords: u.selfKeywords || "-",
         matchingPreference: u.matchingPreference || "-",
-        status: u.teamNumber === null || u.teamNumber === undefined ? "waiting" : "matched",  // ← 여기만 수정
+        status:
+          u.teamNumber === null || u.teamNumber === undefined
+            ? "waiting"
+            : "matched", // ← 여기만 수정
       }));
       filteredUsers = [...users];
       renderUsers();
@@ -201,7 +223,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("인증 토큰이 없습니다.");
 
-      const response = await fetch("http://192.168.123.100:8080/api/admin/match", {
+      const response = await fetch("https://meltin.shop/api/admin/match", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -235,7 +257,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
     usersTableBody.innerHTML = "";
     usersToDisplay.forEach((user) => {
-      const statusClass = user.status === "matched" ? "status-matched" : "status-waiting";
+      const statusClass =
+        user.status === "matched" ? "status-matched" : "status-waiting";
       const statusText = user.status === "matched" ? "매칭됨" : "대기 중";
       const row = document.createElement("tr");
       row.innerHTML = `
@@ -244,7 +267,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td>${user.studentId}</td>
         <td><span class="status-badge ${statusClass}">${statusText}</span></td>
         <td class="action-buttons">
-          <button class="approve-btn" data-user-id="${user.id}" ${user.status === "matched" ? "disabled" : ""}>
+          <button class="approve-btn" data-user-id="${user.id}" ${
+        user.status === "matched" ? "disabled" : ""
+      }>
             <i class="fas fa-check"></i> 매칭
           </button>
         </td>
@@ -262,8 +287,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function updateStats() {
-    const waitingCount = users.filter((user) => user.status === "waiting").length;
-    const matchedCount = users.filter((user) => user.status === "matched").length;
+    const waitingCount = users.filter(
+      (user) => user.status === "waiting"
+    ).length;
+    const matchedCount = users.filter(
+      (user) => user.status === "matched"
+    ).length;
     waitingCountElement.textContent = `${waitingCount}명`;
     matchedCountElement.textContent = `${matchedCount}명`;
   }

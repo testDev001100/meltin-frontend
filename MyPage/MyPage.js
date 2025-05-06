@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-    const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+    const response = await fetch("https://meltin.shop/api/users/me", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
 
       try {
-        const response = await fetch("http://192.168.123.100:8080/api/users/me", {
+        const response = await fetch("https://meltin.shop/api/users/me", {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

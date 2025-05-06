@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (response.ok) {
         const user = await response.json();
         isLoggedIn = true;
-        usernameSpan.textContent = `${user.name}님`;
+        usernameSpan.textContent = `마이페이지`;
         usernameSpan.addEventListener("click", () => {
           window.location.href = "../MyPage/MyPage.html";
         });

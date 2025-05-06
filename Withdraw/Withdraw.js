@@ -58,20 +58,17 @@ document.addEventListener("DOMContentLoaded", function () {
         submitButton.textContent = "처리 중...";
       }
 
-      const response = await fetch(
-        "http://192.168.123.100:8080/api/users/withdraw",
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            password: password,
-            reason: reason || "미입력",
-          }),
-        }
-      );
+      const response = await fetch("https://meltin.shop/api/users/withdraw", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          password: password,
+          reason: reason || "미입력",
+        }),
+      });
 
       // 응답이 성공적이지 않으면 에러 처리
       if (!response.ok) {
