@@ -6,7 +6,7 @@ setInterval(async () => {
     const res = await fetch("/api/matching/me", {
       method: "GET",
       headers: {
-         Authorization: `Bearer ${token}` 
+        Authorization: `Bearer ${token}`,
       },
     });
 
