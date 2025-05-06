@@ -6,7 +6,7 @@ setInterval(async () => {
     const res = await fetch("/api/matching/me", {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + token,
+         Authorization: `Bearer ${token}` 
       },
     });
 
@@ -19,15 +19,12 @@ setInterval(async () => {
       const loadingText = document.getElementById("loading-text");
       const resultContainer = document.getElementById("result-container");
 
-      // "매칭 중입니다" 텍스트를 "팀이 완성되었습니다"로 변경
+      // 기존 "매칭 중입니다" 텍스트를 "팀이 완성되었습니다!"로 바꾸고 숨기지 않음
       if (loadingText) {
         loadingText.textContent = "팀이 완성되었습니다!";
       }
 
-      // 로딩 텍스트 숨기기
-      loadingText.classList.add("hidden");
-
-      // 결과 컨테이너 보이기
+      // 결과 컨테이너 보이기 (버튼 포함)
       if (resultContainer) {
         resultContainer.classList.remove("hidden");
       }

@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         preferredRole: u.preferredRole || "-",
         selfKeywords: u.selfKeywords || "-",
         matchingPreference: u.matchingPreference || "-",
-        status: u.teamNumber == null ? "waiting" : "matched",
+        status: u.teamNumber === null || u.teamNumber === undefined ? "waiting" : "matched",  // ← 여기만 수정
       }));
       filteredUsers = [...users];
       renderUsers();
@@ -242,12 +242,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td>${user.name}</td>
         <td>${user.username}</td>
         <td>${user.studentId}</td>
-        <td>${user.mbti}</td>
-        <td>${user.interest}</td>
-        <td>${user.communicationStyle}</td>
-        <td>${user.preferredRole}</td>
-        <td>${user.selfKeywords}</td>
-        <td>${user.matchingPreference}</td>
         <td><span class="status-badge ${statusClass}">${statusText}</span></td>
         <td class="action-buttons">
           <button class="approve-btn" data-user-id="${user.id}" ${user.status === "matched" ? "disabled" : ""}>
