@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         alert("회원 탈퇴가 완료되었습니다.");
         localStorage.removeItem("token");
-        window.location.href = "../LogInPage/LogInPage.html";
+        window.location.href = "../MainPage/MainPage.html";
       } catch (error) {
         console.error("회원 탈퇴 오류:", error);
         document.getElementById("delete-error-message").textContent =
