@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    await sendSurveyData();
     window.location.href = "../LoadingPage/LoadingPage.html";
     // 모든 검증 통과 시 백엔드로 데이터 전송
-    await sendSurveyData();
   });
 
   // 백엔드로 설문조사 데이터 전송하는 함수
