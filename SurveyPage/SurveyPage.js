@@ -141,11 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // 설문조사 제출 성공 처리
-      alert("설문조사가 성공적으로 제출되었습니다.");
-      localStorage.setItem(
-        "studentId",
-        document.getElementById("studentId").value
-      );
       window.location.href = "../LoadingPage/LoadingPage.html"; // 메인페이지로 리다이렉트
     } catch (error) {
       // 에러 메시지 출력
